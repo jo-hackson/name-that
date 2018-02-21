@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Route } from 'react-router-dom';
+import './styles/App.css';
+import HomePage from './components/pages/HomePage';
+import GamePage from './components/pages/GamePage';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <h1>hello</h1>
-      </div>
-    );
-  }
-}
+const App = () => <div className='container'>
+	<Route path='/' exact component={HomePage} />
+	<Route path='/game' exact component={GamePage} />
+</div>;
 
 export default App;
