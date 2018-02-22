@@ -11,18 +11,19 @@ class Verse extends React.Component {
 			data: {
 				bookGuess: ""
 			},
+			score: 0,
 			answerSubmitted: false,
 			incorrectAnswer: false,
 			showCongrats: false
 		}
 	}
 
-	submit = data => {
+	submit = (data) => {
 		this.setState({ answerSubmitted: true });
 		if (this.state.data.bookGuess !== this.props.verse.book) {
 			this.setState({ incorrectAnswer: true })
 		} else {
-			this.setState({ showCongrats: true })
+			this.setState({ showCongrats: true, score: this.state.score + 1 })
 		}
 	}
 
@@ -54,9 +55,13 @@ class Verse extends React.Component {
 	}
 }
 
+
 Verse.propTypes = {
-	verse: PropTypes.object.isRequired
-}
+	verse: PropTypes.shape({
+		verse: PropTypes.string.isRequired,
+		book: PropTypes.string.isRequired
+	}).isRequired
+};
 
 
 export default Verse;
