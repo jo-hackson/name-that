@@ -1,6 +1,7 @@
 import React from 'react';
 import Verse from './../pieces/verse';
 import './../../styles/GamePage.css';
+import Copyright from '../pieces/Copyright';
 
 class GamePage extends React.Component {
 
@@ -29,6 +30,7 @@ class GamePage extends React.Component {
 		return (
 			<div>
 				<h1><Verse verse={this.state.verseList[`${this.state.counter}`]}/></h1>
+				<Copyright />
 			</div>
 		);
 	}
