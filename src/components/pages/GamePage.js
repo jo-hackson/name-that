@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import axios from 'axios';
 import './../../styles/GamePage.css';
 import Verse from '../pieces/Verse';
 import Copyright from '../pieces/Copyright';
@@ -18,7 +18,28 @@ class GamePage extends React.Component {
 		}
 	};
 
+	// here just call getVerses()
 	componentWillMount() {
+		this.getVerses();
+	};
+		
+	// setState in here with result
+	getVerses = () => {
+		console.log("getting verses...");
+		console.log(process.env.REACT_APP_BIBLE_API_KEY)
+
+		axios.get("https://api.esv.org/v3/passage/html/?q=Jn11.35", { 
+			headers: { 
+				Authorization: 'Token ${process.env.REACT_APP_BIBLE_API_KEY}', 
+			}})
+		  .then(response => {
+		  	console.log(response)
+		  	console.log("success")
+		  })
+		  .catch( errors => console.log(errors))
+
+
+
 		this.setState({ verseList: [{"verse": "in the beginning was God", "book": "genesis"}, 
 																{"verse": "second verse", "book": "exodus"},
 																{"verse": "third verse", "book": "numbers"}] 
@@ -29,6 +50,8 @@ class GamePage extends React.Component {
 		this.setState({ counter: this.state.counter + 1})
 	};
 
+	
+
 
 
 	render() {
@@ -37,6 +60,7 @@ class GamePage extends React.Component {
 			
 				{this.state.counter <= 2 ? (
 					<div>
+						<h1>{process.env.BIBLE_API_KEY}</h1>
 						<Timer onEnd={this.nextVerse} countdown={3}/>
 						<h1><Verse verse={this.state.verseList[`${this.state.counter}`]}/></h1>
 					</div>

@@ -5,6 +5,9 @@ import 'semantic-ui-css/semantic.min.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
+require('dotenv').config(process);
+
+
 ReactDOM.render(
 	<BrowserRouter>
 		<App />
