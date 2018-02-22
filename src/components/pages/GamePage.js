@@ -1,7 +1,10 @@
 import React from 'react';
-import Verse from './../pieces/verse';
+// import PropTypes from 'prop-types';
 import './../../styles/GamePage.css';
+import Verse from '../pieces/Verse';
 import Copyright from '../pieces/Copyright';
+import Timer from '../pieces/Timer';
+
 
 class GamePage extends React.Component {
 
@@ -15,7 +18,6 @@ class GamePage extends React.Component {
 		}
 	};
 
-
 	componentWillMount() {
 		this.setState({ verseList: [{"verse": "in the beginning was God", "book": "genesis"}, 
 																{"verse": "second verse", "book": "exodus"},
@@ -23,18 +25,32 @@ class GamePage extends React.Component {
 								 })									
 	};
 
+	nextVerse = () => {
+		this.setState({ counter: this.state.counter + 1})
+	};
+
 
 
 	render() {
-
 		return (
 			<div>
-				<h1><Verse verse={this.state.verseList[`${this.state.counter}`]}/></h1>
+			
+				{this.state.counter <= 2 ? (
+					<div>
+						<Timer onEnd={this.nextVerse} countdown={3}/>
+						<h1><Verse verse={this.state.verseList[`${this.state.counter}`]}/></h1>
+					</div>
+					) : (
+					<h1>game over</h1>)
+				}
+
 				<Copyright />
 			</div>
 		);
 	}
 };
+
+
 
 
 export default GamePage;
