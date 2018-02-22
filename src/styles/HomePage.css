@@ -1,4 +1,5 @@
 .icon {
-	background-color: red;
-	font-size: 50px;
+	font-size: 4em !important;
+	color: #008B8B;
+	padding-top: 20px;
 }
