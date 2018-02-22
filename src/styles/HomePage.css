@@ -1,11 +1,4 @@
-.link {
-	font-size: 600%;
-	position: relative;
-	top: 30px;
-}
-
-.button {
-	background-color: Transparent;
-	border: none;
-	font-size: 600%;
+.icon {
+	background-color: red;
+	font-size: 50px;
 }
