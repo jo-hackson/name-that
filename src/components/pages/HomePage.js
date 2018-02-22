@@ -13,7 +13,7 @@ class HomePage extends React.Component {
 			<div>
 				<h2>Welcome to</h2>
 				<h1>Name That Book!</h1>
-				<button className='button' onClick={() => this.props.history.push('/game')}><i className="video play icon teal" /></button>
+				<i className="video play icon teal" onClick={() => this.props.history.push('/game')}/>
 			</div>
 		);
 	}
