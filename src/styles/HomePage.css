@@ -3,3 +3,9 @@
 	position: relative;
 	top: 30px;
 }
+
+.button {
+	background-color: Transparent;
+	border: none;
+	font-size: 600%;
+}
