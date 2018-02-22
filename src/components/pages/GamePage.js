@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import './../../styles/GamePage.css';
-import Verse from '../pieces/Verse';
 import Copyright from '../pieces/Copyright';
+import Verse from '../pieces/Verse';
 import Timer from '../pieces/Timer';
 
 
@@ -26,17 +26,19 @@ class GamePage extends React.Component {
 	// setState in here with result
 	getVerses = () => {
 		console.log("getting verses...");
-		console.log(process.env.REACT_APP_BIBLE_API_KEY)
 
 		axios.get("https://api.esv.org/v3/passage/html/?q=Jn11.35", { 
 			headers: { 
-				Authorization: 'Token ${process.env.REACT_APP_BIBLE_API_KEY}', 
+				Authorization: `Token ${process.env.REACT_APP_BIBLE_API_KEY}`, 
 			}})
 		  .then(response => {
 		  	console.log(response)
 		  	console.log("success")
 		  })
-		  .catch( errors => console.log(errors))
+		  .catch(errors => {
+		  	console.log("fail")
+		  	console.log(errors)
+		  });
 
 
 
