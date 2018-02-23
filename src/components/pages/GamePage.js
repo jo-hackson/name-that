@@ -4,6 +4,7 @@ import './../../styles/GamePage.css';
 // import Copyright from '../pieces/Copyright';
 import Verse from '../pieces/Verse';
 import Timer from '../pieces/Timer';
+import EndGame from '../pieces/EndGame';
 
 
 class GamePage extends React.Component {
@@ -14,9 +15,11 @@ class GamePage extends React.Component {
 		this.state = {
 			score: 0,
 			verseList: [],
-			counter: 0
+			counter: 0,
+			isGameOver: false
 		}
 	};
+
 
 	// here just call getVerses()
 	componentWillMount() {
@@ -24,41 +27,6 @@ class GamePage extends React.Component {
 	};
 
 
-	whichVerse = verseResponse => {
-			// remove leading numbers in verse
-			return verseResponse.replace(/^\d+\s*/, '');
-	};
-	
-	whichBook = bookResponse => {
-		// bookResponse = 1 John 3:16 (ASV 1901)
-		let book = "";
-	// if first character is a number then need to take it out and then do the normal expression
-  	if (bookResponse.match(/\D/) != null) {
-  		book += bookResponse[0]; // add the number to the book
-  		bookResponse = bookResponse.slice(1); // remove number
-  	}
-
-  	// extract the name
-  	book += bookResponse.match(/^\D+/)[0]
-  	return book.trim();
-	};
-
-	
-	shuffle = array => {
-		console.log("in shuffle");
-		var currentIndex = array.length, temporaryValue, randomIndex;
-
-		while (0 !== currentIndex) {
-			randomIndex = Math.floor(Math.random() * currentIndex);
-			currentIndex -= 1;
-
-			temporaryValue = array[currentIndex];
-			array[currentIndex] = array[randomIndex];
-			array[randomIndex] = temporaryValue;
-		}
-		return array;
-	};
-		
 	// setState in here with result
 	getVerses = () => {
 		console.log("getting verses...");
@@ -70,6 +38,11 @@ class GamePage extends React.Component {
 		var verseObjectArray = [];
 
 		for (var i = 0; i < versesToApi.length - 1; i++) {
+
+			// this.setState({ verseList: [{"verse": "in the beginning was God", "book": "genesis"}, 
+			// 													{"verse": "second verse", "book": "exodus"},
+			// 													{"verse": "third verse", "book": "numbers"}] 
+			// 						  })
 
 			axios.get(`https://api.biblia.com/v1/bible/content/ASV.txt.js?passage=${versesToApi[i]}&style=fullyFormatted&key=${process.env.REACT_APP_BIBLIA_API_KEY}`)
 					  .then(response => {
@@ -101,36 +74,67 @@ class GamePage extends React.Component {
 	};
 
 
-	nextVerse = () => this.setState({ counter: this.state.counter + 1 });
+	whichVerse = verseResponse => {
+			// remove leading numbers in verse
+			return verseResponse.replace(/^\d+\s*/, '');
+	};
+
+
+	nextVerse = () => {
+		this.setState({ counter: this.state.counter + 1 });
+		this.setState({ isGameOver: this.state.counter === this.state.verseList.length });
+	};
+
+	shuffle = array => {
+		var currentIndex = array.length, temporaryValue, randomIndex;
+
+		while (0 !== currentIndex) {
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+
+			temporaryValue = array[currentIndex];
+			array[currentIndex] = array[randomIndex];
+			array[randomIndex] = temporaryValue;
+		}
+		return array;
+	};
+
+
+	whichBook = bookResponse => {
+	// bookResponse = 1 John 3:16 (ASV 1901)
+	let book = "";
+// if first character is a number then need to take it out and then do the normal expression
+	if (bookResponse.match(/\D/) != null) {
+		book += bookResponse[0]; // add the number to the book
+		bookResponse = bookResponse.slice(1); // remove number
+	}
+
+	// extract the name
+	book += bookResponse.match(/^\D+/)[0]
+	return book.trim();
+};
 
 
 	updateScore = () => {
 		this.setState({ score: this.state.score + 1 })
-		console.log(this.state.score);
 	};
 	
 
-
-
 	render() {
-		const { verseList } = this.state;
+		const { counter, verseList, score, isGameOver } = this.state;
 
 		return (
 			<div>
-			
-				{this.state.counter <= (verseList.length - 1) ? (
-					<div>
-						<h1>{process.env.BIBLE_API_KEY}</h1>
-						<Timer onEnd={this.nextVerse} countdown={3}/>
-						<h1><Verse key={this.state.counter} verse={this.state.verseList[`${this.state.counter}`]} updateScore={this.updateScore}/></h1>
-					</div>
+				{counter <= (verseList.length - 1) ? (
+						<div>
+							{ !isGameOver ? <Timer onEnd={this.nextVerse} countdown={7}/> : null }
+							<h1><Verse key={counter} verse={this.state.verseList[`${counter}`]} updateScore={this.updateScore}/></h1>
+						</div>
 					) : (
-					<div>
-					<h1>game over</h1>
-					<h2>your score is {this.state.score}</h2>
-					</div>
-				)}
+						null
+					)}
 
+				{ isGameOver && <EndGame score={score} /> }
 
 				{/* <Copyright /> */}
 			</div>
@@ -142,9 +146,3 @@ class GamePage extends React.Component {
 
 
 export default GamePage;
-
-// need to grab 5 verses in the form of JSON
-// will have a) verse and b) book
-// need to show a new verse every 10 seconds
-// add counter if book guess === bible book
-// end game and print score
