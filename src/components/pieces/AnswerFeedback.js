@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 
 class AnswerFeedback extends React.Component {
 
@@ -15,16 +16,14 @@ class AnswerFeedback extends React.Component {
 		}
 	};
 
-
-
 	onChange = event => this.setState({ data: { userGuess: event.target.value } });
 
-	submit = data => {
+	submit = () => {
 		this.setState({ submittedAnswer: true });
 		const formattedData = this.formatData(this.state.data.userGuess);
 		const correctBook = this.formatData(this.props.correctAnswer);
 		if (formattedData === correctBook) {
-			// event to bubble up to update score
+			this.props.updateScore();
 			this.setState({ correctAnswer: true });
 		}
 
@@ -32,7 +31,7 @@ class AnswerFeedback extends React.Component {
 
 	// strip of whitespace
 	// lowercase everything
-	formatData = userInput => {return userInput.trim().toLowerCase()};
+	formatData = userInput => { return userInput.trim().toLowerCase() };
 
 
 	render() {
@@ -61,4 +60,12 @@ class AnswerFeedback extends React.Component {
 	}
 }
 
+
+AnswerFeedback.propTypes = {
+	updateScore: PropTypes.func.isRequired,
+	correctAnswer: PropTypes.string.isRequired
+};
+
 export default AnswerFeedback;
+
+
