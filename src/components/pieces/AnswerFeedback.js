@@ -48,6 +48,7 @@ class AnswerFeedback extends React.Component {
 							placeholder="type your guess here and press enter"
 							className="inputField"
 							onChange={this.onChange}
+							autoComplete="off"
 						/>
 						<button type="submit" />
 					</Form.Field>

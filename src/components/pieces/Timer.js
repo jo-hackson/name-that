@@ -5,13 +5,17 @@ class Timer extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { countdown: 3 };
+		this.state = { countdown: 7 };
 	}
 
 	componentDidMount() {
 		this.timeId = setInterval(
 		() => this.tick(),
 		1000 );
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.timeId);
 	}
 
 	// if the timer has not yet hit 0, then count down

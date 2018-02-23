@@ -20,15 +20,13 @@ class GamePage extends React.Component {
 		}
 	};
 
+
 	// here just call getVerses()
 	componentWillMount() {
 		this.getVerses();
 	};
 
 
-	
-
-		
 	// setState in here with result
 	getVerses = () => {
 		console.log("getting verses...");
@@ -40,6 +38,11 @@ class GamePage extends React.Component {
 		var verseObjectArray = [];
 
 		for (var i = 0; i < versesToApi.length - 1; i++) {
+
+			// this.setState({ verseList: [{"verse": "in the beginning was God", "book": "genesis"}, 
+			// 													{"verse": "second verse", "book": "exodus"},
+			// 													{"verse": "third verse", "book": "numbers"}] 
+			// 						  })
 
 			axios.get(`https://api.biblia.com/v1/bible/content/ASV.txt.js?passage=${versesToApi[i]}&style=fullyFormatted&key=${process.env.REACT_APP_BIBLIA_API_KEY}`)
 					  .then(response => {
@@ -124,8 +127,7 @@ class GamePage extends React.Component {
 			<div>
 				{counter <= (verseList.length - 1) ? (
 						<div>
-							{this.updateGameStatus}
-							<Timer onEnd={this.nextVerse} countdown={3}/>
+							{ !isGameOver ? <Timer onEnd={this.nextVerse} countdown={7}/> : null }
 							<h1><Verse key={counter} verse={this.state.verseList[`${counter}`]} updateScore={this.updateScore}/></h1>
 						</div>
 					) : (
@@ -133,8 +135,6 @@ class GamePage extends React.Component {
 					)}
 
 				{ isGameOver && <EndGame score={score} /> }
-
-
 
 				{/* <Copyright /> */}
 			</div>
@@ -146,9 +146,3 @@ class GamePage extends React.Component {
 
 
 export default GamePage;
-
-// need to grab 5 verses in the form of JSON
-// will have a) verse and b) book
-// need to show a new verse every 10 seconds
-// add counter if book guess === bible book
-// end game and print score
