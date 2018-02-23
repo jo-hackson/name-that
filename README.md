@@ -1,4 +1,4 @@
-Name That Book!
+Name That!
 
 React app using the Bible API for information.
 
