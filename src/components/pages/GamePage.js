@@ -27,18 +27,18 @@ class GamePage extends React.Component {
 	getVerses = () => {
 		console.log("getting verses...");
 
-		axios.get("https://api.esv.org/v3/passage/html/?q=Jn11.35", { 
-			headers: { 
-				Authorization: `Token ${process.env.REACT_APP_BIBLE_API_KEY}`, 
-			}})
-		  .then(response => {
-		  	console.log(response)
-		  	console.log("success")
-		  })
-		  .catch(errors => {
-		  	console.log("fail")
-		  	console.log(errors)
-		  });
+		// axios.get("https://api.esv.org/v3/passage/html/?q=Jn11.35", { 
+		// 	headers: { 
+		// 		Authorization: `Token ${process.env.REACT_APP_BIBLE_API_KEY}`, 
+		// 	}})
+		//   .then(response => {
+		//   	console.log(response)
+		//   	console.log("success")
+		//   })
+		//   .catch(errors => {
+		//   	console.log("fail")
+		//   	console.log(errors)
+		//   });
 
 
 
@@ -48,27 +48,37 @@ class GamePage extends React.Component {
 								 })									
 	};
 
-	nextVerse = () => {
-		this.setState({ counter: this.state.counter + 1})
-	};
 
+	nextVerse = () => this.setState({ counter: this.state.counter + 1 });
+
+
+	updateScore = () => {
+		this.setState({ score: this.state.score + 1 })
+		console.log(this.state.score);
+	};
 	
 
 
 
 	render() {
+		const { verseList } = this.state;
+
 		return (
 			<div>
 			
-				{this.state.counter <= 2 ? (
+				{this.state.counter <= (verseList.length - 1) ? (
 					<div>
 						<h1>{process.env.BIBLE_API_KEY}</h1>
 						<Timer onEnd={this.nextVerse} countdown={3}/>
-						<h1><Verse verse={this.state.verseList[`${this.state.counter}`]}/></h1>
+						<h1><Verse key={this.state.counter} verse={this.state.verseList[`${this.state.counter}`]} updateScore={this.updateScore}/></h1>
 					</div>
 					) : (
-					<h1>game over</h1>)
-				}
+					<div>
+					<h1>game over</h1>
+					<h2>your score is {this.state.score}</h2>
+					</div>
+				)}
+
 
 				<Copyright />
 			</div>
