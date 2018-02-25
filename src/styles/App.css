@@ -1,9 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
-
-.container {
+#container {
   text-align: center;
 	padding-top: 10%;
   max-width: 60%;
   margin: auto;
 }
 
+#body {
+  /*background-image: url('https://i1.wp.com/www.dzzyn.com/wp-content/uploads/2015/11/30-Free-Beautiful-Watercolor-Wallpapers-That-Should-Be-on-Your-Desktop-5.jpg');*/
+  background-repeat: repeat;
+  background-size: 1000px;
+  height: 500px;
+}

@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Passion+One');
-
+@import url('https://fonts.googleapis.com/css?family=Passion+One|Playfair+Display');
 
 button {
 	display: none;
@@ -15,4 +14,8 @@ button {
 #quotes {
 	font-size: 2em;
 	font-family: 'Passion One', cursive;
+}
+
+#verse {
+	font-family: 'Playfair Display', serif;
 }
