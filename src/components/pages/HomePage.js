@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom';
 import './../../styles/HomePage.css';
 
 
@@ -14,11 +15,11 @@ class HomePage extends React.Component {
 				<div id="categories">
 					<div className="individual-category" >
 						<h1 id="book-bible">book of the Bible</h1>
-						<i className="video play icon" type="verse" onClick={() => this.props.history.push('/game')}/>
+						<Link to={{ pathname: '/games', state: { category: "verse" } }} ><i className="video play icon"/></Link>
 					</div>
 					<div className="individual-category">
 						<h1 id="tune">tune</h1>
-						<i className="video play icon" onClick={() => this.props.history.push('/game')}/>
+						<Link to={{ pathname: '/games', state: {category: "tune" } }}><i className="video play icon"/></Link>
 					</div>
 				</div>
 				

@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import './../../styles/GamePage.css';
 // import Copyright from '../pieces/Copyright';
 import Verse from '../pieces/Verse';
@@ -16,14 +17,16 @@ class GamePage extends React.Component {
 			score: 0,
 			verseList: [],
 			counter: 0,
-			isGameOver: false
+			isGameOver: false,
+			category: this.props.location.state.category
 		}
 	};
 
 
 	// here just call getVerses()
 	componentWillMount() {
-		console.log("this.get" + `${this.props.type}`)
+		console.log(this.state.category)
+		// console.log(this.props.match.location.state.category)
 		// this.getVerses();
 	};
 
@@ -144,6 +147,9 @@ class GamePage extends React.Component {
 };
 
 
+GamePage.propTypes = {
+	category: PropTypes.string.isRequired
+};
 
 
 export default GamePage;
