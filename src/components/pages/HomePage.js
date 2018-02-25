@@ -1,7 +1,5 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
-// import { connect } from 'react-redux';
 import './../../styles/HomePage.css';
 
 
@@ -11,9 +9,19 @@ class HomePage extends React.Component {
 
 		return(
 			<div>
-				<h2>Welcome to</h2>
-				<h1>Name That Book!</h1>
-				<i className="video play icon" onClick={() => this.props.history.push('/game')}/>
+				<h1 id="headline"><span className="gray-element">let's play</span> name that<span className="gray-element"> ...</span></h1>
+
+				<div id="categories">
+					<div className="individual-category" >
+						<h1 id="book-bible">book of the Bible</h1>
+						<i className="video play icon" type="verse" onClick={() => this.props.history.push('/game')}/>
+					</div>
+					<div className="individual-category">
+						<h1 id="tune">tune</h1>
+						<i className="video play icon" onClick={() => this.props.history.push('/game')}/>
+					</div>
+				</div>
+				
 			</div>
 		);
 	}

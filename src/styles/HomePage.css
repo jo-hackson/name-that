@@ -1,5 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=Bevan|Barrio|Alegreya+Sans+SC');
+
 .icon {
 	font-size: 4em !important;
 	color: #008B8B;
 	padding-top: 20px;
+}
+
+h1#headline {
+	font-family: 'Barrio', cursive;
+	font-size: 4em;
+	padding-bottom: 20px;
+}
+
+
+#categories {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	justify-items: center;
+	align items: center;
+	justify-content: center;
+}
+
+#individual-categories {
+	width: 10px !important;
+}
+
+#book-bible {
+	font-family: 'Alegreya Sans SC', sans-serif;
+}
+
+#tune {
+	font-family: 'Bevan', cursive;
+}
+
+span.gray-element {
+	color: #778899;
 }

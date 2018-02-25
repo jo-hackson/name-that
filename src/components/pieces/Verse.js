@@ -8,7 +8,7 @@ class Verse extends React.Component {
 
 		return(
 			<div>
-				<h1><span id="quotes">&#8220;</span>{this.props.verse.verse}<span id="quotes">&#8221;</span></h1>
+				<h1 id="verse"><span id="quotes">&#8220;</span>{this.props.verse.verse}<span id="quotes">&#8221;</span></h1>
 				<AnswerFeedback 
 					correctAnswer={this.props.verse.book} 
 					updateScore={this.props.updateScore} 

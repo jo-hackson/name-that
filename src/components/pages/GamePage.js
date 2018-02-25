@@ -23,7 +23,8 @@ class GamePage extends React.Component {
 
 	// here just call getVerses()
 	componentWillMount() {
-		this.getVerses();
+		console.log("this.get" + `${this.props.type}`)
+		// this.getVerses();
 	};
 
 
@@ -127,7 +128,7 @@ class GamePage extends React.Component {
 			<div>
 				{counter <= (verseList.length - 1) ? (
 						<div>
-							{ !isGameOver ? <Timer onEnd={this.nextVerse} countdown={7}/> : null }
+							{ !isGameOver ? <Timer onEnd={this.nextVerse} countdown={10}/> : null }
 							<h1><Verse key={counter} verse={this.state.verseList[`${counter}`]} updateScore={this.updateScore}/></h1>
 						</div>
 					) : (
