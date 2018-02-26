@@ -154,8 +154,8 @@ class GamePage extends React.Component {
 			<div>
 				{counter <= (list.length - 1) ? (
 						<div>
-							{ !isGameOver ? <Timer onEnd={this.nextQuestion} countdown={10}/> : null }
-							{ isVerse ? <h1><Verse key={counter} verse={this.state.list[`${counter}`]} updateScore={this.updateScore}/></h1> : null}
+							{ !isGameOver ? <Timer onEnd={this.nextQuestion} countdown={20}/> : null }
+							{ isVerse ? <h1><Verse questionAnswered={this.nextQuestion} key={counter} verse={this.state.list[`${counter}`]} updateScore={this.updateScore}/></h1> : null}
 							{ isTune ? <h1><Tune questionAnswered={this.nextQuestion} key={counter} tune={this.state.list[`${counter}`]} updateScore={this.updateScore}/></h1> : null}
 						</div>
 					) : (

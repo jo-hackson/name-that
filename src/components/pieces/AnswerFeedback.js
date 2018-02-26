@@ -16,6 +16,10 @@ class AnswerFeedback extends React.Component {
 		}
 	};
 
+	componentDidMount = () => {
+		this.nameInput.focus();
+	};
+
 	onChange = event => this.setState({ data: { userGuess: event.target.value } });
 
 	submit = () => {
@@ -28,7 +32,7 @@ class AnswerFeedback extends React.Component {
 		}
 		console.log("question has been answered")
 		// here need to wait 1 second before going to next question
-		setTimeout(this.props.questionAnswered, 2000)
+		setTimeout(this.props.questionAnswered, 1000)
 	};
 
 	// strip of whitespace
@@ -51,6 +55,7 @@ class AnswerFeedback extends React.Component {
 							className="inputField"
 							onChange={this.onChange}
 							autoComplete="off"
+							ref={(input) => { this.nameInput = input; }} 
 						/>
 						<button type="submit" />
 					</Form.Field>

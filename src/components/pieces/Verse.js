@@ -12,6 +12,7 @@ class Verse extends React.Component {
 				<AnswerFeedback 
 					correctAnswer={this.props.verse.book} 
 					updateScore={this.props.updateScore} 
+					questionAnswered={this.props.questionAnswered}
 				/>
 			</div>
 		);
