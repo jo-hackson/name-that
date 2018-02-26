@@ -12,6 +12,7 @@ class Verse extends React.Component {
 				<AnswerFeedback 
 					correctAnswer={this.props.verse.book} 
 					updateScore={this.props.updateScore} 
+					questionAnswered={this.props.questionAnswered}
 				/>
 			</div>
 		);
@@ -24,7 +25,8 @@ Verse.propTypes = {
 		verse: PropTypes.string.isRequired,
 		book: PropTypes.string.isRequired
 	}).isRequired,
-	updateScore: PropTypes.func.isRequired
+	updateScore: PropTypes.func.isRequired,
+	questionAnswered: PropTypes.func.isRequired
 };
 
 

@@ -9,7 +9,7 @@ const App = () => {
 	return(
 		<div id="container">
 			<Route path='/' exact component={HomePage} />
-			<Route path='/game' exact component={GamePage} />
+			<Route path='/games' exact component={GamePage} />
 		</div>
 	);
 }
