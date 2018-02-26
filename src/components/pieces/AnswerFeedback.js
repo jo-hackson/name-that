@@ -14,15 +14,42 @@ class AnswerFeedback extends React.Component {
 				userGuess: ""
 			},
 			correctAnswer: false,
-			submittedAnswer: false
+			submittedAnswer: false,
+			timeoutID: ""
 		}
 	};
 
 	componentDidMount = () => {
 		this.nameInput.focus();
+		// this.setup();
 	};
 
 	onChange = event => this.setState({ data: { userGuess: event.target.value } });
+
+	// setup = () => {
+	// 	const inputBox = this.refs.
+	// 	inputBox.addEventListener("keypress", this.resetIdleTimer, false);
+	// 	this.startIdleTimer();
+	// };
+
+	// startIdleTimer = () => {
+	// 	this.setState({ timeoutID: window.setTimeout(this.goInactive, 5000) });
+	// };
+
+	// resetIdleTimer = event => {
+	// 	window.clearTimeout(this.state.timeoutID);
+	// 	this.goActive();
+	// };
+
+	// goInactive = () => {
+	// 	// do something
+	// 	this.submit();
+	// };
+
+	// goActive = () => {
+	// 	// do something
+	// 	this.startIdleTimer();
+	// };
 
 	submit = () => {
 		this.setState({ submittedAnswer: true });
