@@ -6,7 +6,9 @@ class Timer extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { countdown: 20 };
+		this.state = { 
+			countdown: 2 
+		};
 	}
 
 	componentDidMount() {
@@ -27,7 +29,6 @@ class Timer extends React.Component {
 			this.setState({ countdown: this.state.countdown - 1 });
 		} else {
 			this.props.onEnd();
-			this.setState({ countdown: this.props.countdown})
 		}
 	}
 
@@ -42,7 +43,6 @@ class Timer extends React.Component {
 
 
 Timer.propTypes = {
-	countdown: PropTypes.number.isRequired,
 	onEnd: PropTypes.func.isRequired
 }
 
