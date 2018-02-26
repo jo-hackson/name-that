@@ -104,6 +104,10 @@ class GamePage extends React.Component {
 		this.setState({ isGameOver: this.state.counter === this.state.list.length });
 	};
 
+	endGame = () => {
+		this.setState({ isGameOver: true });
+	}
+
 	getTunes = () => {
 		console.log("getting tunes...")
 		this.setState({ list: [{"tune": "Take a sad song and make it better", "artist": "The Beatles"}, 
@@ -158,7 +162,7 @@ class GamePage extends React.Component {
 
 		return (
 			<div>
-				{counter <= (list.length - 1) ? (
+				{counter <= (list.length - 1) && !isGameOver ? (
 						<div>
 							<div id="instructionsText">
 								<p className="instructions">start typing and hit enter to submit your question</p>
@@ -166,7 +170,7 @@ class GamePage extends React.Component {
 							</div>
 							{ isVerse ? <h1><Verse questionAnswered={this.nextQuestion} key={counter} verse={this.state.list[`${counter}`]} updateScore={this.updateScore}/></h1> : null}
 							{ isTune ? <h1><Tune questionAnswered={this.nextQuestion} key={counter} tune={this.state.list[`${counter}`]} updateScore={this.updateScore}/></h1> : null}
-							{ !isGameOver ? <Timer onEnd={this.nextQuestion} countdown={20}/> : null }
+							{ !isGameOver ? <Timer onEnd={this.endGame} /> : null }
 						</div>
 					) : (
 						null
