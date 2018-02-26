@@ -25,7 +25,9 @@ class GamePage extends React.Component {
 
 	// here just call getVerses()
 	componentWillMount() {
-		console.log(this.state.category)
+		var command = "this.get" + this.state.category;
+		console.log(command);
+		
 		// console.log(this.props.match.location.state.category)
 		// this.getVerses();
 	};
