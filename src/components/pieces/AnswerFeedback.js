@@ -54,8 +54,8 @@ class AnswerFeedback extends React.Component {
 					</Form.Field>
 				</Form>
 
-				{submittedAnswer && !correctAnswer ? <h1>the correct answer is: {this.formatData(this.props.correctAnswer)}</h1> : null }
-				{correctAnswer && <h1>right answer!</h1>}
+				{submittedAnswer && !correctAnswer ? <h1>whatabust, the correct answer is: {this.formatData(this.props.correctAnswer)}</h1> : null }
+				{correctAnswer && <h1>woot woot</h1>}
 			</div>
 		);
 	}

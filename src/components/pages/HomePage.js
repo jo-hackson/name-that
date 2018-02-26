@@ -15,7 +15,7 @@ class HomePage extends React.Component {
 				<div id="categories">
 					<div className="individual-category" >
 						<h1 id="book-bible">book of the Bible</h1>
-						<Link to={{ pathname: '/games', state: { category: "Verses" } }} ><i className="video play icon"/></Link>
+						<Link to={{ pathname: '/games', state: { category: "verse" } }} ><i className="video play icon"/></Link>
 					</div>
 					<div className="individual-category">
 						<h1 id="tune">tune</h1>
