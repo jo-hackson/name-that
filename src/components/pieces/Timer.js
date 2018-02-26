@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './../../styles/Pieces.css';
 
 class Timer extends React.Component {
 
@@ -33,7 +34,7 @@ class Timer extends React.Component {
 	render() {
 		return (
 			<div>
-				<h2>{this.state.countdown}</h2>
+				<h2 className="timer">{this.state.countdown}</h2>
 			</div>
 		);
 	}
