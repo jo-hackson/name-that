@@ -25,7 +25,8 @@ Verse.propTypes = {
 		verse: PropTypes.string.isRequired,
 		book: PropTypes.string.isRequired
 	}).isRequired,
-	updateScore: PropTypes.func.isRequired
+	updateScore: PropTypes.func.isRequired,
+	questionAnswered: PropTypes.func.isRequired
 };
 
 

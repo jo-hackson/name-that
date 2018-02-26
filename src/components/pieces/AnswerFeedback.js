@@ -1,3 +1,5 @@
+// onKeyUp={this.handleKeyUp}
+
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
@@ -24,13 +26,14 @@ class AnswerFeedback extends React.Component {
 
 	submit = () => {
 		this.setState({ submittedAnswer: true });
-		const formattedData = this.formatData(this.state.data.userGuess);
-		const correctBook = this.formatData(this.props.correctAnswer);
-		if (formattedData === correctBook) {
-			this.props.updateScore();
-			this.setState({ correctAnswer: true });
+		if (this.state.data.userGuess != "skip") {
+			const formattedAnswer = this.formatData(this.state.data.userGuess);
+			const realAnswer = this.formatData(this.props.correctAnswer);
+			if (formattedAnswer === realAnswer || (realAnswer.match(new RegExp(formattedAnswer)) != null)) {
+				this.props.updateScore();
+				this.setState({ correctAnswer: true });
+			}
 		}
-		console.log("question has been answered")
 		// here need to wait 1 second before going to next question
 		setTimeout(this.props.questionAnswered, 1000)
 	};
@@ -38,6 +41,11 @@ class AnswerFeedback extends React.Component {
 	// strip of whitespace
 	// lowercase everything
 	formatData = userInput => { return userInput.trim().toLowerCase() };
+
+	// handleKeyUp = () => {
+	// 	console.log("key up");
+	// 	setTimeout(this.submit, 3000);
+	// };
 
 
 	render() {
@@ -55,7 +63,7 @@ class AnswerFeedback extends React.Component {
 							className="inputField"
 							onChange={this.onChange}
 							autoComplete="off"
-							ref={(input) => { this.nameInput = input; }} 
+							ref={(input) => { this.nameInput = input; }}
 						/>
 						<button type="submit" />
 					</Form.Field>

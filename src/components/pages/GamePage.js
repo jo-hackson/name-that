@@ -47,9 +47,12 @@ class GamePage extends React.Component {
 	getVerses = () => {
 		console.log("getting verses...");
 
-		this.setState({ list: [{"verse": "in the beginning was God", "book": "genesis"}, 
-													{"verse": "second verse", "book": "exodus"},
-													{"verse": "third verse", "book": "numbers"}] 
+		this.setState({ list: [{"verse": "Blessed are the poor in spirit, for theirs is the kingdom of heaven.", "book": "Matthew"}, 
+													{"verse": "Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the LORD your God is with you wherever you go.", "book": "James"},
+													{"verse": "Have this mind among yourselves, which is yours in Christ Jesus,who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself, by taking the form of a servant, being born in the likeness of men.", "book": "Philippians"},
+													{"verse": "If this be so, our God whom we serve is able to deliver us from the burning fiery furnace, and he will deliver us out of your hand, O king.", "book": "Daniel"}, 
+													{"verse": "Do not look on his appearance or on the height of his stature, because I have rejected him. For the LORD sees not as man sees: man looks on the outward appearance, cbut the LORD looks on the heart.", "book": "1 Samuel"},
+													{"verse": "And in Antioch the disciples were first called vChristians.", "book": "Acts"}] 
 						  })
 
 		// do 5 API calls	
@@ -103,9 +106,12 @@ class GamePage extends React.Component {
 
 	getTunes = () => {
 		console.log("getting tunes...")
-		this.setState({ list: [{"tune": "Nothing, chillin' at the Holiday Inn", "artist": "chingy"}, 
-													{"tune": "Rollin down the street, smokin indo, sippin on gin and juice", "artist": "snoop doggy dog"},
-													{"tune": "in a world of pure imagination", "artist": "stephanie tarling"}] 
+		this.setState({ list: [{"tune": "Take a sad song and make it better", "artist": "The Beatles"}, 
+													{"tune": "Friday night and the lights are low", "artist": "ABBA"},
+													{"tune": "아름다워사랑스러워 그래 너 hey 그래 바로 너 hey", "artist": "PSY"},
+													{"tune": "I'm bulletproof nothing to lose", "artist": "David Guetta"}, 
+													{"tune": "Become so tired, so much more aware", "artist": "Linkin Park"},
+													{"tune": "While he's having a smoke", "artist": "The Killers"}] 
 						  })
 	}
 
@@ -154,6 +160,8 @@ class GamePage extends React.Component {
 			<div>
 				{counter <= (list.length - 1) ? (
 						<div>
+							<h1>start typing and hit enter to submit your question</h1>
+							<h2>if you don't know, then type "skip"</h2>
 							{ !isGameOver ? <Timer onEnd={this.nextQuestion} countdown={20}/> : null }
 							{ isVerse ? <h1><Verse questionAnswered={this.nextQuestion} key={counter} verse={this.state.list[`${counter}`]} updateScore={this.updateScore}/></h1> : null}
 							{ isTune ? <h1><Tune questionAnswered={this.nextQuestion} key={counter} tune={this.state.list[`${counter}`]} updateScore={this.updateScore}/></h1> : null}

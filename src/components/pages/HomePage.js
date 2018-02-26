@@ -18,7 +18,7 @@ class HomePage extends React.Component {
 						<Link to={{ pathname: '/games', state: { category: "verse" } }} ><i className="video play icon"/></Link>
 					</div>
 					<div className="individual-category">
-						<h1 id="tune">tune</h1>
+						<h1 id="tune">artist</h1>
 						<Link to={{ pathname: '/games', state: {category: "tune" } }}><i className="video play icon"/></Link>
 					</div>
 				</div>
