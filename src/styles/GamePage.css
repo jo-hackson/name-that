@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Passion+One|Playfair+Display');
+@import url('https://fonts.googleapis.com/css?family=Passion+One|Playfair+Display|Roboto');
 
 button {
 	display: none;
@@ -18,4 +18,19 @@ button {
 
 #verse {
 	font-family: 'Playfair Display', serif;
+}
+
+.instructions {
+	color: #778899;
+	font-family: 'Roboto', sans-serif;
+}
+
+span.alert {
+	color: #CD5C5C;
+}
+
+div#instructionsText {
+	line-height: 1%;
+	font: 20px;
+	padding-bottom: 20px;
 }
