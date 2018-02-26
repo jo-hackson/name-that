@@ -26,7 +26,9 @@ class AnswerFeedback extends React.Component {
 			this.props.updateScore();
 			this.setState({ correctAnswer: true });
 		}
-
+		console.log("question has been answered")
+		// here need to wait 1 second before going to next question
+		setTimeout(this.props.questionAnswered, 2000)
 	};
 
 	// strip of whitespace
@@ -64,7 +66,8 @@ class AnswerFeedback extends React.Component {
 
 AnswerFeedback.propTypes = {
 	updateScore: PropTypes.func.isRequired,
-	correctAnswer: PropTypes.string.isRequired
+	correctAnswer: PropTypes.string.isRequired,
+	questionAnswered: PropTypes.func.isRequired
 };
 
 export default AnswerFeedback;
