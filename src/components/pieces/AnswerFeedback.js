@@ -16,7 +16,7 @@ class AnswerFeedback extends React.Component {
 			data: {
 				userGuess: ""
 			},
-			correctAnswer: false,
+			isCorrect: false,
 			submittedAnswer: false,
 		}
 	};
@@ -32,13 +32,21 @@ class AnswerFeedback extends React.Component {
 		if (this.state.data.userGuess !== "skip") {
 			const formattedAnswer = this.formatData(this.state.data.userGuess);
 			const realAnswer = this.formatData(this.props.correctAnswer);
+			console.log("answer is " + formattedAnswer === realAnswer)
+			console.log("answer is " + realAnswer.match(new RegExp(formattedAnswer)) != null)
 			if (formattedAnswer === realAnswer || (realAnswer.match(new RegExp(formattedAnswer)) != null)) {
-				this.props.updateScore();
-				this.setState({ correctAnswer: true });
+				console.log("correct answer received")
+				this.setState({ isCorrect: true }, () => {
+					setTimeout(this.props.questionAnswered, 1000, this.state.isCorrect)
+				});
 			}
 		}
 		// here need to wait 1 second before going to next question
-		setTimeout(this.props.questionAnswered, 1000)
+		// how do I send this.state.isCorrect
+		// setTimeout(this.props.questionAnswered, 1000);
+		// console.log("isCorrect is: " + this.state.isCorrect) // why  is this false, why is state not being upated
+		// console.log("submitted" + this.state.submittedAnswer); // why is this false
+		setTimeout(this.props.questionAnswered, 1000, this.state.isCorrect)
 	};
 
 	// strip of whitespace
@@ -47,17 +55,18 @@ class AnswerFeedback extends React.Component {
 
 	render() {
 
-		const { submittedAnswer, correctAnswer } = this.state;
+		const { submittedAnswer, isCorrect } = this.state;
+		const { bonus, correctAnswer, type } = this.props;
 
 		let answerFeedback;
 
-		if (submittedAnswer && !correctAnswer && (this.props.type === "tune")) {
+		if (submittedAnswer && !isCorrect && (type === "tune")) {
 			answerFeedback = (
-				<h1>whatabust, the lyric is from {this.props.bonus} by {this.props.correctAnswer}</h1>
+				<h1>whatabust, the lyric is from {bonus} by {correctAnswer}</h1>
 			);
-		} else if (submittedAnswer && !correctAnswer) {
+		} else if (submittedAnswer && !isCorrect) {
 			answerFeedback = (
-				<h1>whatabust, the correct answer is: {this.props.correctAnswer}</h1>
+				<h1>whatabust, the correct answer is: {correctAnswer}</h1>
 			);
 		}
 
@@ -78,7 +87,7 @@ class AnswerFeedback extends React.Component {
 					</Form.Field>
 				</Form>
 				{answerFeedback}
-				{correctAnswer && <h1>woot woot</h1>}
+				{isCorrect && <h1>woot woot</h1>}
 			</div>
 		);
 	}
@@ -86,7 +95,6 @@ class AnswerFeedback extends React.Component {
 
 
 AnswerFeedback.propTypes = {
-	updateScore: PropTypes.func.isRequired,
 	correctAnswer: PropTypes.string.isRequired,
 	questionAnswered: PropTypes.func.isRequired,
 	bonus: PropTypes.string,
