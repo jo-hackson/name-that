@@ -23,7 +23,6 @@ class AnswerFeedback extends React.Component {
 
 	componentDidMount = () => {
 		this.nameInput.focus();
-		console.log(this.props.type === "tune")
 	};
 
 	onChange = event => this.setState({ data: { userGuess: event.target.value } });

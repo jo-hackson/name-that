@@ -107,18 +107,18 @@ class GamePage extends React.Component {
 
 	getTunes = () => {
 		console.log("getting tunes...")
-		this.setState({ list: [{"question": "Take a sad song and make it better", "answer": "The Beatles", "bonus": "some album"}, 
-													{"question": "Friday night and the lights are low", "answer": "ABBA", "bonus": "some album"},
-													{"question": "아름다워사랑스러워 그래 너 hey 그래 바로 너 hey", "answer": "PSY", "bonus": "some album"},
-													{"question": "I'm bulletproof nothing to lose", "answer": "David Guetta", "bonus": "some album"}, 
-													{"question": "Become so tired, so much more aware", "answer": "Linkin Park", "bonus": "some album"},
-													{"question": "While he's having a smoke", "answer": "The Killers"}, "bonus": "some album"] 
-						  })
+		// this.setState({ list: [{"question": "Take a sad song and make it better", "answer": "The Beatles", "bonus": "some song"}, 
+		// 											{"question": "Friday night and the lights are low", "answer": "ABBA", "bonus": "some song"},
+		// 											{"question": "아름다워사랑스러워 그래 너 hey 그래 바로 너 hey", "answer": "PSY", "bonus": "some song"},
+		// 											{"question": "I'm bulletproof nothing to lose", "answer": "David Guetta", "bonus": "some song"}, 
+		// 											{"question": "Become so tired, so much more aware", "answer": "Linkin Park", "bonus": "some song"},
+		// 											{"question": "While he's having a smoke", "answer": "The Killers"}, "bonus": "some song"] 
+		// 				  })
 
-		// axios.get(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`, config)
-		// 	.then(response => {
-		// 		console.log(response);
-		// 	});
+		axios.get(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`)
+			.then(response => {
+				console.log(response);
+			});
 
 		// var lyricObjectArray = [];
 		// var allTracks = response.message.body.track_list;
