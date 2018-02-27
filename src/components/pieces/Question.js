@@ -25,7 +25,8 @@ class Question extends React.Component {
 Question.propTypes = {
 	category: PropTypes.shape({
 		question: PropTypes.string.isRequired,
-		answer: PropTypes.string.isRequired
+		answer: PropTypes.string.isRequired,
+		bonus: PropTypes.string
 	}).isRequired,
 	updateScore: PropTypes.func.isRequired,
 	questionAnswered: PropTypes.func.isRequired,
