@@ -107,12 +107,12 @@ class GamePage extends React.Component {
 
 	getTunes = () => {
 		console.log("getting tunes...")
-		this.setState({ list: [{"question": "Take a sad song and make it better", "answer": "The Beatles"}, 
-													{"question": "Friday night and the lights are low", "answer": "ABBA"},
-													{"question": "아름다워사랑스러워 그래 너 hey 그래 바로 너 hey", "answer": "PSY"},
-													{"question": "I'm bulletproof nothing to lose", "answer": "David Guetta"}, 
-													{"question": "Become so tired, so much more aware", "answer": "Linkin Park"},
-													{"question": "While he's having a smoke", "answer": "The Killers"}] 
+		this.setState({ list: [{"question": "Take a sad song and make it better", "answer": "The Beatles", "bonus": "some album"}, 
+													{"question": "Friday night and the lights are low", "answer": "ABBA", "bonus": "some album"},
+													{"question": "아름다워사랑스러워 그래 너 hey 그래 바로 너 hey", "answer": "PSY", "bonus": "some album"},
+													{"question": "I'm bulletproof nothing to lose", "answer": "David Guetta", "bonus": "some album"}, 
+													{"question": "Become so tired, so much more aware", "answer": "Linkin Park", "bonus": "some album"},
+													{"question": "While he's having a smoke", "answer": "The Killers"}, "bonus": "some album"] 
 						  })
 
 		// axios.get(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`, config)
@@ -186,7 +186,7 @@ class GamePage extends React.Component {
 								<p className="instructions">start typing and hit enter to submit your question</p>
 								<p className="instructions">if you don't know, then type <span className="alert">skip</span></p>
 							</div>
-								<h1><Question questionAnswered={this.nextQuestion} key={counter} category={this.state.list[`${counter}`]} updateScore={this.updateScore}/></h1>
+								<h1><Question questionAnswered={this.nextQuestion} key={counter} category={this.state.list[`${counter}`]} updateScore={this.updateScore} type={this.state.category}/></h1>
 							{ !isGameOver ? <Timer onEnd={this.endGame} /> : null }
 						</div>
 					) : (

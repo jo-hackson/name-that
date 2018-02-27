@@ -10,9 +10,11 @@ class Question extends React.Component {
 			<div>
 				<h1 id="question"><span id="quotes">&#8220;</span>{this.props.category.question}<span id="quotes">&#8221;</span></h1>
 				<AnswerFeedback 
-					correctAnswer={this.props.category.answer} 
+					correctAnswer={this.props.category.answer}
+					bonus={this.props.category.bonus} 
 					updateScore={this.props.updateScore} 
 					questionAnswered={this.props.questionAnswered}
+					type={this.props.type}
 				/>
 			</div>
 		);
@@ -26,7 +28,8 @@ Question.propTypes = {
 		answer: PropTypes.string.isRequired
 	}).isRequired,
 	updateScore: PropTypes.func.isRequired,
-	questionAnswered: PropTypes.func.isRequired
+	questionAnswered: PropTypes.func.isRequired,
+	type: PropTypes.string.isRequired
 };
 
 

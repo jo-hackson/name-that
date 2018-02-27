@@ -1,4 +1,6 @@
-		// it is in "songname" by "artist"
+// it is in "songname" by "artist"
+// (this.props.type === "tune") ? <h1>whatabust, the lyric is from {this.props.bonus} by {this.props.correctAnswer}</h1>
+// {submittedAnswer && !correctAnswer ? <h1>whatabust, the correct answer is: {this.props.correctAnswer}</h1> : null}
 
 
 import React from 'react';
@@ -21,6 +23,7 @@ class AnswerFeedback extends React.Component {
 
 	componentDidMount = () => {
 		this.nameInput.focus();
+		console.log(this.props.type === "tune")
 	};
 
 	onChange = event => this.setState({ data: { userGuess: event.target.value } });
@@ -47,6 +50,18 @@ class AnswerFeedback extends React.Component {
 
 		const { submittedAnswer, correctAnswer } = this.state;
 
+		let answerFeedback;
+
+		if (submittedAnswer && !correctAnswer && (this.props.type === "tune")) {
+			answerFeedback = (
+				<h1>whatabust, the lyric is from {this.props.bonus} by {this.props.correctAnswer}</h1>
+			);
+		} else if (submittedAnswer && !correctAnswer) {
+			answerFeedback = (
+				<h1>whatabust, the correct answer is: {this.props.correctAnswer}</h1>
+			);
+		}
+
 		return (
 			<div>
 				<Form onSubmit={this.submit}>
@@ -63,8 +78,7 @@ class AnswerFeedback extends React.Component {
 						<button type="submit" />
 					</Form.Field>
 				</Form>
-
-				{submittedAnswer && !correctAnswer ? <h1>whatabust, the correct answer is: {this.formatData(this.props.correctAnswer)}</h1> : null }
+				{answerFeedback}
 				{correctAnswer && <h1>woot woot</h1>}
 			</div>
 		);
@@ -75,7 +89,9 @@ class AnswerFeedback extends React.Component {
 AnswerFeedback.propTypes = {
 	updateScore: PropTypes.func.isRequired,
 	correctAnswer: PropTypes.string.isRequired,
-	questionAnswered: PropTypes.func.isRequired
+	questionAnswered: PropTypes.func.isRequired,
+	bonus: PropTypes.string,
+	type: PropTypes.string.isRequired
 };
 
 export default AnswerFeedback;
