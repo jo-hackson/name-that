@@ -34,8 +34,10 @@ class AnswerFeedback extends React.Component {
 			const realAnswer = this.formatData(this.props.correctAnswer);
 			if (formattedAnswer === realAnswer || (realAnswer.match(new RegExp(formattedAnswer)) != null)) {
 				this.setState({ isCorrect: true }, () => {
-					setTimeout(this.props.questionAnswered, 1000, this.state.isCorrect)
+					setTimeout(this.props.questionAnswered, 1000, true)
 				});
+			} else {
+				setTimeout(this.props.questionAnswered, 1000, false)
 			}
 		}
 		// here need to wait 1 second before going to next question
@@ -43,7 +45,7 @@ class AnswerFeedback extends React.Component {
 		// setTimeout(this.props.questionAnswered, 1000);
 		// console.log("isCorrect is: " + this.state.isCorrect) // why  is this false, why is state not being upated
 		// console.log("submitted" + this.state.submittedAnswer); // why is this false
-		setTimeout(this.props.questionAnswered, 1000, this.state.isCorrect)
+		
 	};
 
 	// strip of whitespace
