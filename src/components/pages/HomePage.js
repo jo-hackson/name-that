@@ -22,6 +22,8 @@ class HomePage extends React.Component {
 						<Link to={{ pathname: '/games', state: {category: "tune" } }}><i className="video play icon"/></Link>
 					</div>
 				</div>
+				<div className="bottomBorder">
+				</div>
 				
 			</div>
 		);
@@ -29,10 +31,5 @@ class HomePage extends React.Component {
 }
 
 
-HomePage.propTypes = {
-	history: PropTypes.shape({
-		push: PropTypes.func.isRequired
-	})
-}
 
 export default HomePage;

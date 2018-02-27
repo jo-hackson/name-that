@@ -107,40 +107,46 @@ class GamePage extends React.Component {
 
 	getTunes = () => {
 		console.log("getting tunes...")
-		// this.setState({ list: [{"question": "Take a sad song and make it better", "answer": "The Beatles", "bonus": "some song"}, 
-		// 											{"question": "Friday night and the lights are low", "answer": "ABBA", "bonus": "some song"},
-		// 											{"question": "아름다워사랑스러워 그래 너 hey 그래 바로 너 hey", "answer": "PSY", "bonus": "some song"},
-		// 											{"question": "I'm bulletproof nothing to lose", "answer": "David Guetta", "bonus": "some song"}, 
-		// 											{"question": "Become so tired, so much more aware", "answer": "Linkin Park", "bonus": "some song"},
-		// 											{"question": "While he's having a smoke", "answer": "The Killers"}, "bonus": "some song"] 
-		// 				  })
+		this.setState({ list: [{"question": "Take a sad song and make it better", "answer": "The Beatles", "bonus": "some song"}, 
+													{"question": "Friday night and the lights are low", "answer": "ABBA", "bonus": "some song"},
+													{"question": "아름다워사랑스러워 그래 너 hey 그래 바로 너 hey", "answer": "PSY", "bonus": "some song"},
+													{"question": "I'm bulletproof nothing to lose", "answer": "David Guetta", "bonus": "some song"}, 
+													{"question": "Become so tired, so much more aware", "answer": "Linkin Park", "bonus": "some song"},
+													{"question": "While he's having a smoke", "answer": "The Killers"}, "bonus": "some song"] 
+						  })
 
-		axios.get(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`)
-			.then(response => {
-				console.log(response);
+		// CHECK IF THIS WILL WORK
+		fetch(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`)
+			.then(results => {
+				console.log(results)
 			});
 
-		// var lyricObjectArray = [];
-		// var allTracks = response.message.body.track_list;
+		// axios.get(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`, { crossdomain: true })
+		// 	.then(response => {
+		// 		console.log(response);
+		// 	});
 
-		// for (var i = 0; i < allTracks.length - 1; i++) {
-		// 	let trackId = allTracks[i].track.track_id;
-		// 	// URL http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_MUSIX_API_KEY}
-		// 	let lyric = response.message.body.lyrics.lyrics_body.split('\n')[0]
-		// 	let artistName = allTracks[i].track.artist_name;
-		// 	let trackName = allTracks[i].track.track_name;
-		// 	// ADD BACK TO FOLLOWING LINE: "question": lyric
-		// 	lyricObjectArray.push({ "answer": artistName, "bonus": trackName });	
-		// }
+		// // var lyricObjectArray = [];
+		// // var allTracks = response.message.body.track_list;
 
-		// this.setState({ list: lyricObjectArray });
+		// // for (var i = 0; i < allTracks.length - 1; i++) {
+		// // 	let trackId = allTracks[i].track.track_id;
+		// // 	// URL http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_MUSIX_API_KEY}
+		// // 	let lyric = response.message.body.lyrics.lyrics_body.split('\n')[0]
+		// // 	let artistName = allTracks[i].track.artist_name;
+		// // 	let trackName = allTracks[i].track.track_name;
+		// // 	// ADD BACK TO FOLLOWING LINE: "question": lyric
+		// // 	lyricObjectArray.push({ "answer": artistName, "bonus": trackName });	
+		// // }
+
+		// // this.setState({ list: lyricObjectArray });
 
 	}
 
 	shuffle = array => {
 		var currentIndex = array.length, temporaryValue, randomIndex;
 
-		while (0 !== currentIndex) {
+		while (currentIndex !== 0) {
 			randomIndex = Math.floor(Math.random() * currentIndex);
 			currentIndex -= 1;
 
@@ -167,26 +173,37 @@ class GamePage extends React.Component {
 };
 
 
-	updateScore = () => {
-		this.setState({ score: this.state.score + 1 })
+	updateScore = (newScore) => {
+		console.log("added to score")
+		this.setState({ score: this.state.score + newScore })
 	};
 
 	capitalize = string => {
 		string.charAt(0).toUpperCase() + string.slice(1);
 	};	
 
+
+
 	render() {
 		const { counter, list, score, isGameOver } = this.state;
 
 		return (
-			<div>
+			<div id="body-blah">
 				{counter <= (list.length - 1) && !isGameOver ? (
 						<div>
 							<div id="instructionsText">
 								<p className="instructions">start typing and hit enter to submit your question</p>
 								<p className="instructions">if you don't know, then type <span className="alert">skip</span></p>
 							</div>
-								<h1><Question questionAnswered={this.nextQuestion} key={counter} category={this.state.list[`${counter}`]} updateScore={this.updateScore} type={this.state.category}/></h1>
+								<h1><Question 
+											questionAnswered={this.nextQuestion} 
+											key={counter} 
+											category={this.state.list[`${counter}`]} 
+											addToScore={this.updateScore} 
+											type={this.state.category} 
+										/>
+								</h1>
+								<h1>your score is {score.toFixed(2)}</h1>
 							{ !isGameOver ? <Timer onEnd={this.endGame} /> : null }
 						</div>
 					) : (
@@ -196,6 +213,8 @@ class GamePage extends React.Component {
 				{ isGameOver && <EndGame score={score} /> }
 
 				{/* <Copyright /> */}
+				<div className="bottomBorder">
+				</div>
 			</div>
 		);
 	}
