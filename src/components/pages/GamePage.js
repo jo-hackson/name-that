@@ -182,6 +182,8 @@ class GamePage extends React.Component {
 		string.charAt(0).toUpperCase() + string.slice(1);
 	};	
 
+
+
 	render() {
 		const { counter, list, score, isGameOver } = this.state;
 
@@ -199,9 +201,9 @@ class GamePage extends React.Component {
 											category={this.state.list[`${counter}`]} 
 											addToScore={this.updateScore} 
 											type={this.state.category} 
-											score={score}
 										/>
 								</h1>
+								<h1>your score is {score.toFixed(2)}</h1>
 							{ !isGameOver ? <Timer onEnd={this.endGame} /> : null }
 						</div>
 					) : (

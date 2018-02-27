@@ -26,7 +26,6 @@ class Question extends React.Component {
 
 		return(
 			<div>
-				<h1>your score is {this.props.score}</h1>
 				<h1 id="question"><span id="quotes">&#8220;</span>{this.props.category.question}<span id="quotes">&#8221;</span></h1>
 				<AnswerFeedback 
 					correctAnswer={this.props.category.answer}
