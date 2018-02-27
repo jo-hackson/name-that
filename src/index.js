@@ -8,8 +8,6 @@ import registerServiceWorker from './registerServiceWorker';
 
 
 
-
-
 require('dotenv').config(process);
 
 ReactDOM.render(

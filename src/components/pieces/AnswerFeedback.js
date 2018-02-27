@@ -53,7 +53,7 @@ class AnswerFeedback extends React.Component {
 
 	submit = () => {
 		this.setState({ submittedAnswer: true });
-		if (this.state.data.userGuess != "skip") {
+		if (this.state.data.userGuess !== "skip") {
 			const formattedAnswer = this.formatData(this.state.data.userGuess);
 			const realAnswer = this.formatData(this.props.correctAnswer);
 			if (formattedAnswer === realAnswer || (realAnswer.match(new RegExp(formattedAnswer)) != null)) {
