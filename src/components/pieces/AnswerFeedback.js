@@ -1,3 +1,6 @@
+		// it is in "songname" by "artist"
+
+
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
@@ -13,13 +16,11 @@ class AnswerFeedback extends React.Component {
 			},
 			correctAnswer: false,
 			submittedAnswer: false,
-			timeoutID: ""
 		}
 	};
 
 	componentDidMount = () => {
 		this.nameInput.focus();
-		// this.setup();
 	};
 
 	onChange = event => this.setState({ data: { userGuess: event.target.value } });
