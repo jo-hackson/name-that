@@ -32,10 +32,7 @@ class AnswerFeedback extends React.Component {
 		if (this.state.data.userGuess !== "skip") {
 			const formattedAnswer = this.formatData(this.state.data.userGuess);
 			const realAnswer = this.formatData(this.props.correctAnswer);
-			console.log("answer is " + formattedAnswer === realAnswer)
-			console.log("answer is " + realAnswer.match(new RegExp(formattedAnswer)) != null)
 			if (formattedAnswer === realAnswer || (realAnswer.match(new RegExp(formattedAnswer)) != null)) {
-				console.log("correct answer received")
 				this.setState({ isCorrect: true }, () => {
 					setTimeout(this.props.questionAnswered, 1000, this.state.isCorrect)
 				});

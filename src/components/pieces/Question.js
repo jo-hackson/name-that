@@ -1,6 +1,3 @@
-// can compare dates
-// or do a timer
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import AnswerFeedback from './AnswerFeedback';
@@ -16,18 +13,7 @@ class Question extends React.Component {
 		}
 	}
 
-	// answerReceived = () => {
-	// 	// console.log(isCorrect)
-	// 	// if (isCorrect) {
-	// 		const endTime = new Date();
-	// 		const score = 20 - (endTime - this.state.startTime) * 0.0001;
-	// 		this.props.addToScore(score);
-	// 	// }
-	// 	this.props.questionAnswered();
-	// };
-
 	answerReceived = (isCorrect) => {
-		console.log("inside answerReceived " + isCorrect)
 		if (isCorrect) {
 			const endTime = new Date();
 			const score = 20 - (endTime - this.state.startTime) * 0.0001;
