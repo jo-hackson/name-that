@@ -1,4 +1,7 @@
-// onKeyUp={this.handleKeyUp}
+// it is in "songname" by "artist"
+// (this.props.type === "tune") ? <h1>whatabust, the lyric is from {this.props.bonus} by {this.props.correctAnswer}</h1>
+// {submittedAnswer && !correctAnswer ? <h1>whatabust, the correct answer is: {this.props.correctAnswer}</h1> : null}
+
 
 import React from 'react';
 import { Form } from 'semantic-ui-react';
@@ -15,45 +18,19 @@ class AnswerFeedback extends React.Component {
 			},
 			correctAnswer: false,
 			submittedAnswer: false,
-			timeoutID: ""
 		}
 	};
 
 	componentDidMount = () => {
 		this.nameInput.focus();
-		// this.setup();
+		console.log(this.props.type === "tune")
 	};
 
 	onChange = event => this.setState({ data: { userGuess: event.target.value } });
 
-	// setup = () => {
-	// 	const inputBox = this.refs.
-	// 	inputBox.addEventListener("keypress", this.resetIdleTimer, false);
-	// 	this.startIdleTimer();
-	// };
-
-	// startIdleTimer = () => {
-	// 	this.setState({ timeoutID: window.setTimeout(this.goInactive, 5000) });
-	// };
-
-	// resetIdleTimer = event => {
-	// 	window.clearTimeout(this.state.timeoutID);
-	// 	this.goActive();
-	// };
-
-	// goInactive = () => {
-	// 	// do something
-	// 	this.submit();
-	// };
-
-	// goActive = () => {
-	// 	// do something
-	// 	this.startIdleTimer();
-	// };
-
 	submit = () => {
 		this.setState({ submittedAnswer: true });
-		if (this.state.data.userGuess != "skip") {
+		if (this.state.data.userGuess !== "skip") {
 			const formattedAnswer = this.formatData(this.state.data.userGuess);
 			const realAnswer = this.formatData(this.props.correctAnswer);
 			if (formattedAnswer === realAnswer || (realAnswer.match(new RegExp(formattedAnswer)) != null)) {
@@ -69,15 +46,21 @@ class AnswerFeedback extends React.Component {
 	// lowercase everything
 	formatData = userInput => { return userInput.trim().toLowerCase() };
 
-	// handleKeyUp = () => {
-	// 	console.log("key up");
-	// 	setTimeout(this.submit, 3000);
-	// };
-
-
 	render() {
 
 		const { submittedAnswer, correctAnswer } = this.state;
+
+		let answerFeedback;
+
+		if (submittedAnswer && !correctAnswer && (this.props.type === "tune")) {
+			answerFeedback = (
+				<h1>whatabust, the lyric is from {this.props.bonus} by {this.props.correctAnswer}</h1>
+			);
+		} else if (submittedAnswer && !correctAnswer) {
+			answerFeedback = (
+				<h1>whatabust, the correct answer is: {this.props.correctAnswer}</h1>
+			);
+		}
 
 		return (
 			<div>
@@ -95,8 +78,7 @@ class AnswerFeedback extends React.Component {
 						<button type="submit" />
 					</Form.Field>
 				</Form>
-
-				{submittedAnswer && !correctAnswer ? <h1>whatabust, the correct answer is: {this.formatData(this.props.correctAnswer)}</h1> : null }
+				{answerFeedback}
 				{correctAnswer && <h1>woot woot</h1>}
 			</div>
 		);
@@ -107,7 +89,9 @@ class AnswerFeedback extends React.Component {
 AnswerFeedback.propTypes = {
 	updateScore: PropTypes.func.isRequired,
 	correctAnswer: PropTypes.string.isRequired,
-	questionAnswered: PropTypes.func.isRequired
+	questionAnswered: PropTypes.func.isRequired,
+	bonus: PropTypes.string,
+	type: PropTypes.string.isRequired
 };
 
 export default AnswerFeedback;

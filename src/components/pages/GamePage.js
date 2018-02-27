@@ -3,8 +3,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import './../../styles/GamePage.css';
 // import Copyright from '../pieces/Copyright';
-import Verse from '../pieces/Verse';
-import Tune from '../pieces/Tune';
+import Question from '../pieces/Question';
 import Timer from '../pieces/Timer';
 import EndGame from '../pieces/EndGame';
 
@@ -47,12 +46,12 @@ class GamePage extends React.Component {
 	getVerses = () => {
 		console.log("getting verses...");
 
-		this.setState({ list: [{"verse": "Blessed are the poor in spirit, for theirs is the kingdom of heaven.", "book": "Matthew"}, 
-													{"verse": "Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the LORD your God is with you wherever you go.", "book": "James"},
-													{"verse": "Have this mind among yourselves, which is yours in Christ Jesus,who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself, by taking the form of a servant, being born in the likeness of men.", "book": "Philippians"},
-													{"verse": "If this be so, our God whom we serve is able to deliver us from the burning fiery furnace, and he will deliver us out of your hand, O king.", "book": "Daniel"}, 
-													{"verse": "Do not look on his appearance or on the height of his stature, because I have rejected him. For the LORD sees not as man sees: man looks on the outward appearance, cbut the LORD looks on the heart.", "book": "1 Samuel"},
-													{"verse": "And in Antioch the disciples were first called vChristians.", "book": "Acts"}] 
+		this.setState({ list: [{"question": "Blessed are the poor in spirit, for theirs is the kingdom of heaven.", "answer": "Matthew"}, 
+													{"question": "Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the LORD your God is with you wherever you go.", "answer": "James"},
+													{"question": "Have this mind among yourselves, which is yours in Christ Jesus,who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself, by taking the form of a servant, being born in the likeness of men.", "answer": "Philippians"},
+													{"question": "If this be so, our God whom we serve is able to deliver us from the burning fiery furnace, and he will deliver us out of your hand, O king.", "answer": "Daniel"}, 
+													{"question": "Do not look on his appearance or on the height of his stature, because I have rejected him. For the LORD sees not as man sees: man looks on the outward appearance, cbut the LORD looks on the heart.", "answer": "1 Samuel"},
+													{"question": "And in Antioch the disciples were first called vChristians.", "answer": "Acts"}] 
 						  })
 
 		// do 5 API calls	
@@ -74,13 +73,11 @@ class GamePage extends React.Component {
 
 			// 		  	// find book
 			// 		  	let book = this.whichBook(bookResponse);
-			// 		  	// console.log("final book is " + book);
 
 			// 		  	// find verse
 			// 		  	let verse = this.whichVerse(verseResponse);
-			// 		  	// console.log("final verse is " + verse);
 					   
-			// 		  	verseObjectArray.push({ "verse": verse, "book": book });
+			// 		  	verseObjectArray.push({ "question": verse, "answer": book });
 			// 		  	this.setState({ list: verseObjectArray });
 			// 		  })
 			// 		  .catch(errors => {
@@ -106,17 +103,38 @@ class GamePage extends React.Component {
 
 	endGame = () => {
 		this.setState({ isGameOver: true });
-	}
+	};
 
 	getTunes = () => {
 		console.log("getting tunes...")
-		this.setState({ list: [{"tune": "Take a sad song and make it better", "artist": "The Beatles"}, 
-													{"tune": "Friday night and the lights are low", "artist": "ABBA"},
-													{"tune": "아름다워사랑스러워 그래 너 hey 그래 바로 너 hey", "artist": "PSY"},
-													{"tune": "I'm bulletproof nothing to lose", "artist": "David Guetta"}, 
-													{"tune": "Become so tired, so much more aware", "artist": "Linkin Park"},
-													{"tune": "While he's having a smoke", "artist": "The Killers"}] 
+		this.setState({ list: [{"question": "Take a sad song and make it better", "answer": "The Beatles", "bonus": "some album"}, 
+													{"question": "Friday night and the lights are low", "answer": "ABBA", "bonus": "some album"},
+													{"question": "아름다워사랑스러워 그래 너 hey 그래 바로 너 hey", "answer": "PSY", "bonus": "some album"},
+													{"question": "I'm bulletproof nothing to lose", "answer": "David Guetta", "bonus": "some album"}, 
+													{"question": "Become so tired, so much more aware", "answer": "Linkin Park", "bonus": "some album"},
+													{"question": "While he's having a smoke", "answer": "The Killers"}, "bonus": "some album"] 
 						  })
+
+		// axios.get(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`, config)
+		// 	.then(response => {
+		// 		console.log(response);
+		// 	});
+
+		// var lyricObjectArray = [];
+		// var allTracks = response.message.body.track_list;
+
+		// for (var i = 0; i < allTracks.length - 1; i++) {
+		// 	let trackId = allTracks[i].track.track_id;
+		// 	// URL http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_MUSIX_API_KEY}
+		// 	let lyric = response.message.body.lyrics.lyrics_body.split('\n')[0]
+		// 	let artistName = allTracks[i].track.artist_name;
+		// 	let trackName = allTracks[i].track.track_name;
+		// 	// ADD BACK TO FOLLOWING LINE: "question": lyric
+		// 	lyricObjectArray.push({ "answer": artistName, "bonus": trackName });	
+		// }
+
+		// this.setState({ list: lyricObjectArray });
+
 	}
 
 	shuffle = array => {
@@ -158,7 +176,7 @@ class GamePage extends React.Component {
 	};	
 
 	render() {
-		const { counter, list, score, isGameOver, isVerse, isTune } = this.state;
+		const { counter, list, score, isGameOver } = this.state;
 
 		return (
 			<div>
@@ -168,8 +186,7 @@ class GamePage extends React.Component {
 								<p className="instructions">start typing and hit enter to submit your question</p>
 								<p className="instructions">if you don't know, then type <span className="alert">skip</span></p>
 							</div>
-							{ isVerse ? <h1><Verse questionAnswered={this.nextQuestion} key={counter} verse={this.state.list[`${counter}`]} updateScore={this.updateScore}/></h1> : null}
-							{ isTune ? <h1><Tune questionAnswered={this.nextQuestion} key={counter} tune={this.state.list[`${counter}`]} updateScore={this.updateScore}/></h1> : null}
+								<h1><Question questionAnswered={this.nextQuestion} key={counter} category={this.state.list[`${counter}`]} updateScore={this.updateScore} type={this.state.category}/></h1>
 							{ !isGameOver ? <Timer onEnd={this.endGame} /> : null }
 						</div>
 					) : (
