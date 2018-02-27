@@ -1,5 +1,3 @@
-// onKeyUp={this.handleKeyUp}
-
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
@@ -26,31 +24,6 @@ class AnswerFeedback extends React.Component {
 
 	onChange = event => this.setState({ data: { userGuess: event.target.value } });
 
-	// setup = () => {
-	// 	const inputBox = this.refs.
-	// 	inputBox.addEventListener("keypress", this.resetIdleTimer, false);
-	// 	this.startIdleTimer();
-	// };
-
-	// startIdleTimer = () => {
-	// 	this.setState({ timeoutID: window.setTimeout(this.goInactive, 5000) });
-	// };
-
-	// resetIdleTimer = event => {
-	// 	window.clearTimeout(this.state.timeoutID);
-	// 	this.goActive();
-	// };
-
-	// goInactive = () => {
-	// 	// do something
-	// 	this.submit();
-	// };
-
-	// goActive = () => {
-	// 	// do something
-	// 	this.startIdleTimer();
-	// };
-
 	submit = () => {
 		this.setState({ submittedAnswer: true });
 		if (this.state.data.userGuess !== "skip") {
@@ -68,12 +41,6 @@ class AnswerFeedback extends React.Component {
 	// strip of whitespace
 	// lowercase everything
 	formatData = userInput => { return userInput.trim().toLowerCase() };
-
-	// handleKeyUp = () => {
-	// 	console.log("key up");
-	// 	setTimeout(this.submit, 3000);
-	// };
-
 
 	render() {
 
