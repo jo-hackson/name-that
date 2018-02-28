@@ -49,7 +49,6 @@ Question.propTypes = {
 	questionAnswered: PropTypes.func.isRequired,
 	type: PropTypes.string.isRequired,
 	addToScore: PropTypes.func.isRequired,
-	score: PropTypes.number.isRequired
 };
 
 

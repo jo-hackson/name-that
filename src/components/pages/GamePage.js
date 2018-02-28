@@ -6,6 +6,7 @@ import './../../styles/GamePage.css';
 import Question from '../pieces/Question';
 import Timer from '../pieces/Timer';
 import EndGame from '../pieces/EndGame';
+// import Instructions from '../pieces/Instructions';
 
 
 class GamePage extends React.Component {
@@ -19,8 +20,6 @@ class GamePage extends React.Component {
 			counter: 0,
 			isGameOver: false,
 			category: this.props.location.state.category,
-			// isVerse: false,
-			// isTune: false
 		}
 	};
 
