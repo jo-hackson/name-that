@@ -116,9 +116,9 @@ class GamePage extends React.Component {
 						  })
 
 		// CHECK IF THIS WILL WORK
-		fetch(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`)
+		axios(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`, { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } })
 			.then(results => {
-				console.log(results)
+				console.log(results.headers)
 			});
 
 		// axios.get(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`, { crossdomain: true })
