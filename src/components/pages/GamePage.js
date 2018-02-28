@@ -36,8 +36,8 @@ class GamePage extends React.Component {
 				this.getTunes();
 				// this.setState({ isTune: true });
 				break;
-			case 'currency':
-				this.getCurrency();
+			case 'capital':
+				this.getCapitals();
 				break;
 			default:
 				break;
@@ -154,7 +154,7 @@ class GamePage extends React.Component {
 
 	};
 
-	getCurrency = () => {
+	getCapitals = () => {
 		// response.data.[0..250]
 		var randomNumberArray = this.randomizedNumbers();
 		// console.log(randomNumberArray)
@@ -215,7 +215,6 @@ class GamePage extends React.Component {
 
 
 	updateScore = (newScore) => {
-		console.log("added to score")
 		this.setState({ score: this.state.score + newScore })
 	};
 
