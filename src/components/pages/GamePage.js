@@ -6,6 +6,7 @@ import './../../styles/GamePage.css';
 import Question from '../pieces/Question';
 import Timer from '../pieces/Timer';
 import EndGame from '../pieces/EndGame';
+import Instructions from '../pieces/Instructions';
 
 
 class GamePage extends React.Component {
@@ -229,6 +230,7 @@ class GamePage extends React.Component {
 
 		return (
 			<div id="body-blah">
+				<Instructions />
 				{counter <= (list.length - 1) && !isGameOver ? (
 						<div>
 							<div id="instructionsText">
