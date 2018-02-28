@@ -16,7 +16,8 @@ class Question extends React.Component {
 	answerReceived = (isCorrect) => {
 		if (isCorrect) {
 			const endTime = new Date();
-			const score = 20 - (endTime - this.state.startTime) * 0.0001;
+			const score = (20 - (endTime - this.state.startTime) * 0.0001) / 2;
+			console.log(20 - (endTime - this.state.startTime) * 0.0001);
 			this.props.addToScore(score);
 		}
 		this.props.questionAnswered();
