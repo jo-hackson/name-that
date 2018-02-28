@@ -8,7 +8,7 @@ class EndGame extends React.Component {
 		return (
 			<div>
 				<h1>game over!</h1>
-				<h2>your score is {this.props.score}</h2>
+				<h2>your score is {this.props.score.toFixed(2)}</h2>
 				<Link to='/'><i className="home icon"/></Link>
 			</div>
 		);
