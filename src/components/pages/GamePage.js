@@ -19,8 +19,8 @@ class GamePage extends React.Component {
 			counter: 0,
 			isGameOver: false,
 			category: this.props.location.state.category,
-			isVerse: false,
-			isTune: false
+			// isVerse: false,
+			// isTune: false
 		}
 	};
 
@@ -30,11 +30,14 @@ class GamePage extends React.Component {
 		switch (this.state.category) {
 			case 'verse': 
 				this.getVerses();
-				this.setState({ isVerse: true });
+				// this.setState({ isVerse: true });
 				break;
 			case 'tune':
 				this.getTunes();
-				this.setState({ isTune: true });
+				// this.setState({ isTune: true });
+				break;
+			case 'currency':
+				this.getCurrency();
 				break;
 			default:
 				break;
@@ -96,14 +99,22 @@ class GamePage extends React.Component {
 	};
 
 
-	nextQuestion = () => {
-		this.setState({ counter: this.state.counter + 1 });
-		this.setState({ isGameOver: this.state.counter === this.state.list.length });
-	};
+	whichBook = bookResponse => {
+	// bookResponse = 1 John 3:16 (ASV 1901)
+	let book = "";
+// if first character is a number then need to take it out and then do the normal expression
+	if (bookResponse.match(/\D/) != null) {
+		book += bookResponse[0]; // add the number to the book
+		bookResponse = bookResponse.slice(1); // remove number
+	}
 
-	endGame = () => {
-		this.setState({ isGameOver: true });
-	};
+	// extract the name
+	book += bookResponse.match(/^\D+/)[0]
+	return book.trim();
+};
+
+
+
 
 	getTunes = () => {
 		console.log("getting tunes...")
@@ -141,7 +152,50 @@ class GamePage extends React.Component {
 
 		// // this.setState({ list: lyricObjectArray });
 
-	}
+	};
+
+	getCurrency = () => {
+		// response.data.[0..250]
+		var randomNumberArray = this.randomizedNumbers();
+		// console.log(randomNumberArray)
+		
+		axios.get('https://restcountries.eu/rest/v2/all')
+			.then(response => {
+				let countryInformation = response.data;
+				let countryArray = [];
+
+				for (var i = 0; i < 10; i++) {
+					let randomNumber = Math.floor(Math.random() * 20);
+					let capital = countryInformation[randomNumberArray[i]].capital;
+					let country = countryInformation[randomNumberArray[i]].name;
+					countryArray.push({ question: capital, answer: country});
+				}
+				this.setState({ list: countryArray });
+			});
+
+
+	};
+
+
+	randomizedNumbers = () => {
+		var array = [];
+		while (array.length < 10) {
+			var randomNumber = Math.floor(Math.random() * 250) + 1;
+			if (array.indexOf(randomNumber) > -1) continue;
+			array[array.length] = randomNumber;
+		}
+		return array;
+	};
+
+
+	nextQuestion = () => {
+		this.setState({ counter: this.state.counter + 1 });
+		this.setState({ isGameOver: this.state.counter === this.state.list.length });
+	};
+
+	endGame = () => {
+		this.setState({ isGameOver: true });
+	};
 
 	shuffle = array => {
 		var currentIndex = array.length, temporaryValue, randomIndex;
@@ -158,19 +212,6 @@ class GamePage extends React.Component {
 	};
 
 
-	whichBook = bookResponse => {
-	// bookResponse = 1 John 3:16 (ASV 1901)
-	let book = "";
-// if first character is a number then need to take it out and then do the normal expression
-	if (bookResponse.match(/\D/) != null) {
-		book += bookResponse[0]; // add the number to the book
-		bookResponse = bookResponse.slice(1); // remove number
-	}
-
-	// extract the name
-	book += bookResponse.match(/^\D+/)[0]
-	return book.trim();
-};
 
 
 	updateScore = (newScore) => {
