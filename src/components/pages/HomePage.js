@@ -28,11 +28,6 @@ class HomePage extends React.Component {
 						<Link to={{ pathname: '/games', state: {category: "capital" } }}><i className="video play icon"/></Link>
 					</div>
 
-					<div className="individual-category">
-						<h1 id="currency">languages</h1>
-						<Link to={{ pathname: '/games', state: {category: "foreignLanguage" } }}><i className="video play icon"/></Link>
-					</div>
-
 					<div className="bottomBorder">
 					</div>
 

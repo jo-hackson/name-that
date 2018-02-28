@@ -39,9 +39,6 @@ class GamePage extends React.Component {
 			case 'capital':
 				this.getCapitals();
 				break;
-			case 'foreignLanguage':
-				this.getLanguages();
-				break;
 			default:
 				break;
 		}
@@ -179,26 +176,6 @@ class GamePage extends React.Component {
 
 	};
 
-	getLanguages = () => {
-		var randomNumberArray = this.randomizedNumbers();
-
-		axios.get('https://restcountries.eu/rest/v2/all')
-			.then(response => {
-				let countryInformation = response.data;
-				let countryArray = [];
-				console.log(countryInformation[0].languages[0].nativeName)
-				for (var i = 0; i < 10; i++) {
-					let randomNumber = Math.floor(Math.random() * 20);
-					let language = countryInformation[randomNumberArray[i]].languages[0].nativeName;
-					let country = countryInformation[randomNumberArray[i]].name;
-					countryArray.push({ question: language, answer: country});
-				}
-				this.setState({ list: countryArray });
-			});
-
-
-	};
-
 
 	randomizedNumbers = () => {
 		var array = [];
@@ -238,7 +215,6 @@ class GamePage extends React.Component {
 
 
 	updateScore = (newScore) => {
-		console.log("added to score")
 		this.setState({ score: this.state.score + newScore })
 	};
 
