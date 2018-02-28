@@ -17,19 +17,28 @@ class HomePage extends React.Component {
 						<h1 id="book-bible">book of the Bible</h1>
 						<Link to={{ pathname: '/games', state: { category: "verse" } }} ><i className="video play icon"/></Link>
 					</div>
+
 					<div className="individual-category">
 						<h1 id="tune">artist</h1>
 						<Link to={{ pathname: '/games', state: {category: "tune" } }}><i className="video play icon"/></Link>
 					</div>
+
 					<div className="individual-category">
 						<h1 id="currency">capitals (of countries)</h1>
-						<Link to={{ pathname: '/games', state: {category: "currency" } }}><i className="video play icon"/></Link>
+						<Link to={{ pathname: '/games', state: {category: "capital" } }}><i className="video play icon"/></Link>
 					</div>
+
+					<div className="individual-category">
+						<h1 id="currency">languages</h1>
+						<Link to={{ pathname: '/games', state: {category: "foreignLanguage" } }}><i className="video play icon"/></Link>
+					</div>
+
+					<div className="bottomBorder">
+					</div>
+
 				</div>
-				<div className="bottomBorder">
-				</div>
-				
 			</div>
+			
 		);
 	}
 }
