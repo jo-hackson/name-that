@@ -1,12 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+// import XLSX from 'xlsx';
+import Papa from 'papaparse';
 import './../../styles/GamePage.css';
 // import Copyright from '../pieces/Copyright';
 import Question from '../pieces/Question';
 import Timer from '../pieces/Timer';
 import EndGame from '../pieces/EndGame';
-// import Instructions from '../pieces/Instructions';
+import Instructions from '../pieces/Instructions';
 
 
 class GamePage extends React.Component {
@@ -20,6 +22,7 @@ class GamePage extends React.Component {
 			counter: 0,
 			isGameOver: false,
 			category: this.props.location.state.category,
+			show: false
 		}
 	};
 
@@ -41,20 +44,37 @@ class GamePage extends React.Component {
 			default:
 				break;
 		}
+
+		setTimeout(this.tick, 5000);
 	};
 
+	tick = () => {
+		console.log("blah");
+		this.setState({ show: true });
+	};
 
 	// setState in here with result
 	getVerses = () => {
+
+		// bible = {
+		// 	genesis: [0, 31, 25, 24, 26, 32, 22, 24, 22, 29, 32, 32, 20, 18, 24, 21, 16, 27, 33, 38, 18, 34, 24, 20, 67, 34, ]
+		// }
+		this.readCSVFile();
+
+
+		// var req = new XMLHttpRequest();
+		// req.open("GET", 'bibletaxonomy.csv', true);
+
+		// this.parseData("../", this.doStuff);
 		console.log("getting verses...");
 
-		this.setState({ list: [{"question": "Blessed are the poor in spirit, for theirs is the kingdom of heaven.", "answer": "Matthew"}, 
-													{"question": "Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the LORD your God is with you wherever you go.", "answer": "James"},
-													{"question": "Have this mind among yourselves, which is yours in Christ Jesus,who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself, by taking the form of a servant, being born in the likeness of men.", "answer": "Philippians"},
-													{"question": "If this be so, our God whom we serve is able to deliver us from the burning fiery furnace, and he will deliver us out of your hand, O king.", "answer": "Daniel"}, 
-													{"question": "Do not look on his appearance or on the height of his stature, because I have rejected him. For the LORD sees not as man sees: man looks on the outward appearance, cbut the LORD looks on the heart.", "answer": "1 Samuel"},
-													{"question": "And in Antioch the disciples were first called vChristians.", "answer": "Acts"}] 
-						  })
+		// this.setState({ list: [{"question": "Blessed are the poor in spirit, for theirs is the kingdom of heaven.", "answer": "Matthew"}, 
+		// 											{"question": "Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the LORD your God is with you wherever you go.", "answer": "James"},
+		// 											{"question": "Have this mind among yourselves, which is yours in Christ Jesus,who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself, by taking the form of a servant, being born in the likeness of men.", "answer": "Philippians"},
+		// 											{"question": "If this be so, our God whom we serve is able to deliver us from the burning fiery furnace, and he will deliver us out of your hand, O king.", "answer": "Daniel"}, 
+		// 											{"question": "Do not look on his appearance or on the height of his stature, because I have rejected him. For the LORD sees not as man sees: man looks on the outward appearance, cbut the LORD looks on the heart.", "answer": "1 Samuel"},
+		// 											{"question": "And in Antioch the disciples were first called vChristians.", "answer": "Acts"}] 
+		// 				  })
 
 		// do 5 API calls	
 		// var verseArray = ["Romans8:1", "Romans8:2", "Romans8:3", "Romans8:4", "Romans8:5", "Romans8:6"];
@@ -91,6 +111,90 @@ class GamePage extends React.Component {
 							
 	};
 
+
+
+	doStuff = data => {
+    //Data is usable here
+    console.log(data);
+	};
+
+	parseData = (url, callBack) => {
+		Papa.parse(url, {
+      download: true,
+      dynamicTyping: true,
+      complete: function(results) {
+          callBack(results.data);
+      }
+  	});   
+	};
+
+
+
+	readCSVFile = () => {
+		console.log("reading...");
+
+		var file = new File([], "bibletaxonomy.csv", {
+							  type: "text/plain",
+							});
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			console.log(e.target.result)
+		};
+
+		reader.readAsArrayBuffer(file);
+
+		// var data;
+
+		// var request = new XMLHttpRequest();
+		// request.onload = this.requestListener;
+		// request.open('get', 'bibletaxonomy.csv', true);
+		// request.send();
+
+		// fetch('bibletaxonomy.csv')
+		//   .then(function(response) {
+		//     console.log(response)
+		//   })
+		//   .then(function(myJson) {
+		//     console.log(myJson);
+		//   });
+
+		Papa.parse('bibletaxonomy.csv', { 
+			header: false, 
+			delimiter: ",",
+			complete: function(results) {
+				console.log(results.data);
+			} 
+		});
+	};
+
+
+
+	// 	var xhr = new XMLHttpRequest();
+	// 	xhr.open("GET", "bibletaxonomy.xls", true);
+	// 	xhr.responseType = "json";
+	
+	// 	xhr.onreadystatechange = function() {
+	// 		// console.log("yay")
+	// 		var data = new Uint8Array(xhr.response);
+
+	// 		var workbook = XLSX.read(data, { type: "array" });
+	// 		console.log(workbook);
+	// 	};
+
+	// 	// this is important!
+	// 	xhr.send();
+
+	// };
+
+	// to_json = workbook => {
+	// 	var result = {};
+	// 	workbook.SheetNames.forEach(function(sheetName) {
+	// 		var roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+	// 		if(roa.length > 0) result[sheetName] = roa;
+	// 	});
+
+	// 	return result;
+	// };
 
 	whichVerse = verseResponse => {
 			// remove leading numbers in verse
@@ -224,33 +328,39 @@ class GamePage extends React.Component {
 
 
 	render() {
-		const { counter, list, score, isGameOver } = this.state;
+		const { counter, list, score, isGameOver, show } = this.state;
 
 		return (
 			<div id="body-blah">
-				{counter <= (list.length - 1) && !isGameOver ? (
-						<div>
-							<div id="instructionsText">
-								<p className="instructions">start typing and hit enter to submit your question</p>
-								<p className="instructions">if you don't know, then type <span className="alert">skip</span></p>
+
+				<div style={{ display: !show ? "" : "none" }}>
+					<Instructions />
+				</div>
+
+				<div style={{ display: show ? "" : "none" }}>
+					{counter <= (list.length - 1) && !isGameOver ? (
+							<div>
+								<div id="instructionsText">
+									<p className="instructions">start typing and hit enter to submit your question</p>
+									<p className="instructions">if you don't know, then type <span className="alert">skip</span></p>
+								</div>
+									<h1><Question 
+												questionAnswered={this.nextQuestion} 
+												key={counter} 
+												category={this.state.list[`${counter}`]} 
+												addToScore={this.updateScore} 
+												type={this.state.category} 
+											/>
+									</h1>
+									<h1>your score is {score.toFixed(2)}</h1>
+								{ !isGameOver ? <Timer onEnd={this.endGame} /> : null }
 							</div>
-								<h1><Question 
-											questionAnswered={this.nextQuestion} 
-											key={counter} 
-											category={this.state.list[`${counter}`]} 
-											addToScore={this.updateScore} 
-											type={this.state.category} 
-										/>
-								</h1>
-								<h1>your score is {score.toFixed(2)}</h1>
-							{ !isGameOver ? <Timer onEnd={this.endGame} /> : null }
-						</div>
-					) : (
-						null
-					)}
+						) : (
+							null
+						)}
 
-				{ isGameOver && <EndGame score={score} /> }
-
+					{ isGameOver && <EndGame score={score} /> }
+				</div>
 				{/* <Copyright /> */}
 				<div className="bottomBorder">
 				</div>
