@@ -111,7 +111,7 @@ class GamePage extends React.Component {
 			.then(response => response.json())
 			.then(trackContent => {
 				var allTracks = trackContent.message.body.track_list;
-				var randomNumberArray = this.randomizedNumbers(12); // get 12 random numbers
+				var randomNumberArray = this.randomizedNumbers(100, 12); // get 12 random numbers
 				var randomizedTracks = []
 
 				// get the 12 random track ids
@@ -120,7 +120,7 @@ class GamePage extends React.Component {
 					randomizedTracks.push({"trackId": thisTrack.track_id, "artistName": thisTrack.artist_name, "trackName": thisTrack.track_name})
 				}
 
-				for (var i = 0; i < randomizedTracks.length - 1; i++) {
+				for (var i = 0; i < randomizedTracks.length; i++) {
 					let trackId = randomizedTracks[i].trackId;
 					let artistName = randomizedTracks[i].artistName;
 					let trackName = randomizedTracks[i].trackName;
@@ -129,9 +129,18 @@ class GamePage extends React.Component {
 					fetch(proxyUrl + trackApiUrl)
 						.then(response => response.json())
 						.then(lyricContent => {
-							let lyric = lyricContent.message.body.lyrics.lyrics_body.split('\n')[0]
+							let splitLyrics = lyricContent.message.body.lyrics.lyrics_body.split('\n');
+							let lyricsLength = splitLyrics.length - 3;
+							let randomNumber = Math.floor(Math.random() * lyricsLength);
+
+							if (splitLyrics[randomNumber] == "") randomNumber += 1;
+
+							let firstLyric = splitLyrics[randomNumber];
+							let secondLyric = splitLyrics[randomNumber + 1] !== "" ? splitLyrics[randomNumber + 1] : splitLyrics[randomNumber + 2];
+
+							let lyric = firstLyric + " / " + secondLyric;
+
 							lyricObjectArray.push({ "answer": artistName, "question": lyric, "bonus": trackName });
-							console.log("lyric object array")
 							console.log(lyricObjectArray)
 						})
 						.catch(() => console.log('errors with track'))
@@ -145,7 +154,7 @@ class GamePage extends React.Component {
 
 	getCapitals = () => {
 		// response.data.[0..250]
-		var randomNumberArray = this.randomizedNumbers(250);
+		var randomNumberArray = this.randomizedNumbers(250, 12);
 		
 		axios.get('https://restcountries.eu/rest/v2/all')
 			.then(response => {
@@ -164,9 +173,9 @@ class GamePage extends React.Component {
 	};
 
 
-	randomizedNumbers = limit => {
+	randomizedNumbers = (limit, quantityOfNumbers) => {
 		var array = [];
-		while (array.length < 12) {
+		while (array.length < quantityOfNumbers) {
 			var randomNumber = Math.floor(Math.random() * limit) + 1;
 			if (array.indexOf(randomNumber) > -1) continue;
 			array[array.length] = randomNumber;
