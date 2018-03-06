@@ -1,8 +1,3 @@
-// it is in "songname" by "artist"
-// (this.props.type === "tune") ? <h1>whatabust, the lyric is from {this.props.bonus} by {this.props.correctAnswer}</h1>
-// {submittedAnswer && !correctAnswer ? <h1>whatabust, the correct answer is: {this.props.correctAnswer}</h1> : null}
-
-
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
@@ -32,7 +27,8 @@ class AnswerFeedback extends React.Component {
 		if (this.state.data.userGuess !== "skip") {
 			const formattedAnswer = this.formatData(this.state.data.userGuess);
 			const realAnswer = this.formatData(this.props.correctAnswer);
-			if (formattedAnswer === realAnswer || (realAnswer.match(new RegExp(formattedAnswer)) != null)) {
+
+			if ((formattedAnswer === realAnswer || (realAnswer.match(new RegExp(formattedAnswer)) != null)) && formattedAnswer.length > 3) {
 				this.setState({ isCorrect: true }, () => {
 					setTimeout(this.props.questionAnswered, 1000, true)
 				});
@@ -40,16 +36,9 @@ class AnswerFeedback extends React.Component {
 				setTimeout(this.props.questionAnswered, 1000, false)
 			}
 		}
-		// here need to wait 1 second before going to next question
-		// how do I send this.state.isCorrect
-		// setTimeout(this.props.questionAnswered, 1000);
-		// console.log("isCorrect is: " + this.state.isCorrect) // why  is this false, why is state not being upated
-		// console.log("submitted" + this.state.submittedAnswer); // why is this false
-		
 	};
 
-	// strip of whitespace
-	// lowercase everything
+	// strip whitespace, lowercase everything
 	formatData = userInput => { return userInput.trim().toLowerCase() };
 
 	render() {
@@ -61,11 +50,11 @@ class AnswerFeedback extends React.Component {
 
 		if (submittedAnswer && !isCorrect && (type === "tune")) {
 			answerFeedback = (
-				<h1>whatabust, the lyric is from {bonus} by {correctAnswer}</h1>
+				<h1>whatabust, the lyric is from  <span className="correctAnswer">{bonus}</span>  by  <span className="correctAnswer">{correctAnswer}</span></h1>
 			);
 		} else if (submittedAnswer && !isCorrect) {
 			answerFeedback = (
-				<h1>whatabust, the correct answer is: {correctAnswer}</h1>
+				<h1>whatabust, the correct answer is  <span className="correctAnswer">{correctAnswer}</span></h1>
 			);
 		}
 
@@ -99,6 +88,10 @@ AnswerFeedback.propTypes = {
 	bonus: PropTypes.string,
 	type: PropTypes.string.isRequired
 };
+
+AnswerFeedback.defaultProps = {
+	bonus: ""
+}
 
 export default AnswerFeedback;
 
