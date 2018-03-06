@@ -1,13 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+// import Papa from 'papaparse';
 import './../../styles/GamePage.css';
 // import Copyright from '../pieces/Copyright';
 import Question from '../pieces/Question';
 import Timer from '../pieces/Timer';
 import EndGame from '../pieces/EndGame';
-// import Instructions from '../pieces/Instructions';
-
+import Instructions from '../pieces/Instructions';
+import { getVerseNames } from '../modules/RandomVerses';
 
 class GamePage extends React.Component {
 
@@ -20,6 +21,7 @@ class GamePage extends React.Component {
 			counter: 0,
 			isGameOver: false,
 			category: this.props.location.state.category,
+			show: false
 		}
 	};
 
@@ -28,12 +30,11 @@ class GamePage extends React.Component {
 	componentWillMount() {
 		switch (this.state.category) {
 			case 'verse': 
-				this.getVerses();
-				// this.setState({ isVerse: true });
+				var verses = getVerseNames();
+				this.getVerses(verses);
 				break;
 			case 'tune':
 				this.getTunes();
-				// this.setState({ isTune: true });
 				break;
 			case 'capital':
 				this.getCapitals();
@@ -41,76 +42,125 @@ class GamePage extends React.Component {
 			default:
 				break;
 		}
+
+		setTimeout(this.tick, 5000);
 	};
 
+	tick = () => {
+		console.log("blah");
+		this.setState({ show: true });
+	};
 
-	// setState in here with result
-	getVerses = () => {
+	getVerses = verses => {
 		console.log("getting verses...");
 
-		this.setState({ list: [{"question": "Blessed are the poor in spirit, for theirs is the kingdom of heaven.", "answer": "Matthew"}, 
-													{"question": "Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the LORD your God is with you wherever you go.", "answer": "James"},
-													{"question": "Have this mind among yourselves, which is yours in Christ Jesus,who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself, by taking the form of a servant, being born in the likeness of men.", "answer": "Philippians"},
-													{"question": "If this be so, our God whom we serve is able to deliver us from the burning fiery furnace, and he will deliver us out of your hand, O king.", "answer": "Daniel"}, 
-													{"question": "Do not look on his appearance or on the height of his stature, because I have rejected him. For the LORD sees not as man sees: man looks on the outward appearance, cbut the LORD looks on the heart.", "answer": "1 Samuel"},
-													{"question": "And in Antioch the disciples were first called vChristians.", "answer": "Acts"}] 
-						  })
+		// this.readCSVFile();
 
-		// do 5 API calls	
-		// var verseArray = ["Romans8:1", "Romans8:2", "Romans8:3", "Romans8:4", "Romans8:5", "Romans8:6"];
-		// var versesToApi = this.shuffle(verseArray);
-		// var verseObjectArray = [];
+		// this.setState({ list: [{"question": "Blessed are the poor in spirit, for theirs is the kingdom of heaven.", "answer": "Matthew"}, 
+		// 											{"question": "Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the LORD your God is with you wherever you go.", "answer": "James"},
+		// 											{"question": "Have this mind among yourselves, which is yours in Christ Jesus,who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself, by taking the form of a servant, being born in the likeness of men.", "answer": "Philippians"},
+		// 											{"question": "If this be so, our God whom we serve is able to deliver us from the burning fiery furnace, and he will deliver us out of your hand, O king.", "answer": "Daniel"}, 
+		// 											{"question": "Do not look on his appearance or on the height of his stature, because I have rejected him. For the LORD sees not as man sees: man looks on the outward appearance, cbut the LORD looks on the heart.", "answer": "1 Samuel"},
+		// 											{"question": "And in Antioch the disciples were first called vChristians.", "answer": "Acts"}] 
+		// 				  })
 
-		// for (var i = 0; i < versesToApi.length - 1; i++) {
-			// axios.get(`https://api.biblia.com/v1/bible/content/ASV.txt.js?passage=${versesToApi[i]}&style=fullyFormatted&key=${process.env.REACT_APP_BIBLIA_API_KEY}`)
-			// 		  .then(response => {
-			// 		  	// console.log(response.data.text);
-			// 		  	let bookResponse = response.data.text.split('\n')[0];
-			// 		  	if (response.data.text.split('\n')[1].match(/\r/) != null) {
-			// 		  		var verseResponse = response.data.text.split('\n')[2]
-			// 		  	} else {
-			// 		  		var verseResponse = response.data.text.split('\n')[1];
-			// 		  	}
-			// 		  	// console.log("verse response is " + verseResponse);
+		let verseObjectArray = [];
 
-			// 		  	// find book
-			// 		  	let book = this.whichBook(bookResponse);
+		for (var i = 0; i < verses.length - 1; i++) {
+			axios.get(`https://api.biblia.com/v1/bible/content/ASV.txt.js?passage=${verses[i]}&style=fullyFormatted&key=${process.env.REACT_APP_BIBLIA_API_KEY}`)
+					  .then(response => {
+					  	let bookResponse = response.data.text.split('\n')[0];
+					  	if (response.data.text.split('\n')[1].match(/\r/) != null) {
+					  		var verseResponse = response.data.text.split('\n')[2]
+					  	} else {
+					  		var verseResponse = response.data.text.split('\n')[1];
+					  	}
 
-			// 		  	// find verse
-			// 		  	let verse = this.whichVerse(verseResponse);
+					  	let book = this.whichBook(bookResponse);
+					  	let verse = this.whichVerse(verseResponse);
 					   
-			// 		  	verseObjectArray.push({ "question": verse, "answer": book });
-			// 		  	this.setState({ list: verseObjectArray });
-			// 		  })
-			// 		  .catch(errors => {
-			// 		  	console.log("fail")
-			// 		  	console.log(errors)
-			// 		  });
-		// }
-
-							
+					  	verseObjectArray.push({ "question": verse, "answer": book });
+					  	this.setState({ list: verseObjectArray });
+					  })
+					  .catch(errors => {
+					  	console.log("fail")
+					  	console.log(errors)
+					  });
+		};
+		this.setState({ list: verseObjectArray });					
 	};
-
 
 	whichVerse = verseResponse => {
-			// remove leading numbers in verse
-			return verseResponse.replace(/^\d+\s*/, '');
+		// remove leading numbers in verse
+		return verseResponse.replace(/^\d+\s*/, '');
 	};
 
-
 	whichBook = bookResponse => {
-	// bookResponse = 1 John 3:16 (ASV 1901)
-	let book = "";
-// if first character is a number then need to take it out and then do the normal expression
-	if (bookResponse.match(/\D/) != null) {
-		book += bookResponse[0]; // add the number to the book
-		bookResponse = bookResponse.slice(1); // remove number
-	}
+		let book = "";
+		// if first character is a number then need to take it out and then do the normal expression
+		if (bookResponse.match(/\D/) != null) {
+			book += bookResponse[0]; // add the number to the book
+			bookResponse = bookResponse.slice(1); // remove number
+		}
 
-	// extract the name
-	book += bookResponse.match(/^\D+/)[0]
-	return book.trim();
-};
+		// extract the name
+		book += bookResponse.match(/^\D+/)[0]
+		return book.trim();
+	};
+
+	// doStuff = data => {
+ //    //Data is usable here
+ //    console.log(data);
+	// };
+
+	// parseData = (url, callBack) => {
+	// 	Papa.parse(url, {
+ //      download: true,
+ //      dynamicTyping: true,
+ //      complete: function(results) {
+ //          callBack(results.data);
+ //      }
+ //  	});   
+	// };
+
+	// readCSVFile = () => {
+	// 	console.log("reading...");
+
+	// 	var file = new File([], "bibletaxonomy.csv", {
+	// 						  type: "text/plain",
+	// 						});
+	// 	var reader = new FileReader();
+	// 	reader.onload = function(e) {
+	// 		console.log(e.target.result)
+	// 	};
+
+	// 	reader.readAsArrayBuffer(file);
+
+	// 	// var data;
+
+	// 	// var request = new XMLHttpRequest();
+	// 	// request.onload = this.requestListener;
+	// 	// request.open('get', 'bibletaxonomy.csv', true);
+	// 	// request.send();
+
+	// 	// fetch('bibletaxonomy.csv')
+	// 	//   .then(function(response) {
+	// 	//     console.log(response)
+	// 	//   })
+	// 	//   .then(function(myJson) {
+	// 	//     console.log(myJson);
+	// 	//   });
+
+	// 	Papa.parse('bibletaxonomy.csv', { 
+	// 		header: false, 
+	// 		delimiter: ",",
+	// 		complete: function(results) {
+	// 			console.log(results.data);
+	// 		} 
+	// 	});
+	// };
+
+
 
 
 
@@ -224,16 +274,18 @@ class GamePage extends React.Component {
 
 
 	render() {
-		const { counter, list, score, isGameOver } = this.state;
+		const { counter, list, score, isGameOver, show } = this.state;
 
 		return (
 			<div id="body-blah">
-				{counter <= (list.length - 1) && !isGameOver ? (
-						<div>
-							<div id="instructionsText">
-								<p className="instructions">start typing and hit enter to submit your question</p>
-								<p className="instructions">if you don't know, then type <span className="alert">skip</span></p>
-							</div>
+
+				<div style={{ display: !show ? "" : "none" }}>
+					<Instructions />
+				</div>
+
+				<div style={{ display: show ? "" : "none" }}>
+					{counter <= (list.length - 1) && !isGameOver ? (
+							<div>
 								<h1><Question 
 											questionAnswered={this.nextQuestion} 
 											key={counter} 
@@ -243,14 +295,14 @@ class GamePage extends React.Component {
 										/>
 								</h1>
 								<h1>your score is {score.toFixed(2)}</h1>
-							{ !isGameOver ? <Timer onEnd={this.endGame} /> : null }
-						</div>
-					) : (
-						null
-					)}
+								{ !isGameOver && show ? <Timer onEnd={this.endGame} /> : null }
+							</div>
+						) : (
+							null
+						)}
 
-				{ isGameOver && <EndGame score={score} /> }
-
+					{ isGameOver && <EndGame score={score} /> }
+				</div>
 				{/* <Copyright /> */}
 				<div className="bottomBorder">
 				</div>
