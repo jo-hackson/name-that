@@ -117,10 +117,8 @@ class GamePage extends React.Component {
 				// get the 12 random track ids
 				for (var j = 0; j < randomNumberArray.length; j++) {
 					var thisTrack = trackContent.message.body.track_list[randomNumberArray[j]].track
-					// console.log(thisTrack)
 					randomizedTracks.push({"trackId": thisTrack.track_id, "artistName": thisTrack.artist_name, "trackName": thisTrack.track_name})
 				}
-				// console.log(randomizedTracks)
 
 				for (var i = 0; i < randomizedTracks.length - 1; i++) {
 					let trackId = randomizedTracks[i].trackId;
@@ -131,14 +129,7 @@ class GamePage extends React.Component {
 					fetch(proxyUrl + trackApiUrl)
 						.then(response => response.json())
 						.then(lyricContent => {
-							// console.log("lyric content")
-							// console.log(lyricContent)
 							let lyric = lyricContent.message.body.lyrics.lyrics_body.split('\n')[0]
-							// console.log("lyric")
-							// console.log(lyric)
-							// let artistName = randomizedTracks[i].artistName;
-							// let trackName = randomizedTracks[i].trackName;
-							// console.log(randomizedTracks[i])
 							lyricObjectArray.push({ "answer": artistName, "question": lyric, "bonus": trackName });
 							console.log("lyric object array")
 							console.log(lyricObjectArray)
@@ -155,7 +146,6 @@ class GamePage extends React.Component {
 	getCapitals = () => {
 		// response.data.[0..250]
 		var randomNumberArray = this.randomizedNumbers(250);
-		// console.log(randomNumberArray)
 		
 		axios.get('https://restcountries.eu/rest/v2/all')
 			.then(response => {
@@ -169,9 +159,8 @@ class GamePage extends React.Component {
 					countryArray.push({ question: capital, answer: country});
 				}
 				this.setState({ list: countryArray });
-			});
-
-
+			})
+			.catch(() => console.log("errors in api call"))
 	};
 
 
