@@ -9,7 +9,7 @@ import Question from '../pieces/Question';
 import Timer from '../pieces/Timer';
 import EndGame from '../pieces/EndGame';
 import Instructions from '../pieces/Instructions';
-
+import { getVerseNames } from '../modules/RandomVerses';
 
 class GamePage extends React.Component {
 
@@ -31,12 +31,12 @@ class GamePage extends React.Component {
 	componentWillMount() {
 		switch (this.state.category) {
 			case 'verse': 
-				this.getVerses();
-				// this.setState({ isVerse: true });
+				var verses = getVerseNames();
+				// get verses and send to getVerses
+				this.getVerses(verses);
 				break;
 			case 'tune':
 				this.getTunes();
-				// this.setState({ isTune: true });
 				break;
 			case 'capital':
 				this.getCapitals();
@@ -44,6 +44,8 @@ class GamePage extends React.Component {
 			default:
 				break;
 		}
+
+		
 
 		setTimeout(this.tick, 5000);
 	};
@@ -53,20 +55,10 @@ class GamePage extends React.Component {
 		this.setState({ show: true });
 	};
 
-	// setState in here with result
-	getVerses = () => {
-
-		// bible = {
-		// 	genesis: [0, 31, 25, 24, 26, 32, 22, 24, 22, 29, 32, 32, 20, 18, 24, 21, 16, 27, 33, 38, 18, 34, 24, 20, 67, 34, ]
-		// }
-		this.readCSVFile();
-
-
-		// var req = new XMLHttpRequest();
-		// req.open("GET", 'bibletaxonomy.csv', true);
-
-		// this.parseData("../", this.doStuff);
+	getVerses = verses => {
 		console.log("getting verses...");
+
+		// this.readCSVFile();
 
 		// this.setState({ list: [{"question": "Blessed are the poor in spirit, for theirs is the kingdom of heaven.", "answer": "Matthew"}, 
 		// 											{"question": "Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the LORD your God is with you wherever you go.", "answer": "James"},
@@ -76,145 +68,111 @@ class GamePage extends React.Component {
 		// 											{"question": "And in Antioch the disciples were first called vChristians.", "answer": "Acts"}] 
 		// 				  })
 
-		// do 5 API calls	
-		// var verseArray = ["Romans8:1", "Romans8:2", "Romans8:3", "Romans8:4", "Romans8:5", "Romans8:6"];
-		// var versesToApi = this.shuffle(verseArray);
-		// var verseObjectArray = [];
+		let verseObjectArray = [];
 
-		// for (var i = 0; i < versesToApi.length - 1; i++) {
-			// axios.get(`https://api.biblia.com/v1/bible/content/ASV.txt.js?passage=${versesToApi[i]}&style=fullyFormatted&key=${process.env.REACT_APP_BIBLIA_API_KEY}`)
-			// 		  .then(response => {
-			// 		  	// console.log(response.data.text);
-			// 		  	let bookResponse = response.data.text.split('\n')[0];
-			// 		  	if (response.data.text.split('\n')[1].match(/\r/) != null) {
-			// 		  		var verseResponse = response.data.text.split('\n')[2]
-			// 		  	} else {
-			// 		  		var verseResponse = response.data.text.split('\n')[1];
-			// 		  	}
-			// 		  	// console.log("verse response is " + verseResponse);
+		for (var i = 0; i < verses.length - 1; i++) {
+			axios.get(`https://api.biblia.com/v1/bible/content/ASV.txt.js?passage=${verses[i]}&style=fullyFormatted&key=${process.env.REACT_APP_BIBLIA_API_KEY}`)
+					  .then(response => {
+					  	let bookResponse = response.data.text.split('\n')[0];
+					  	if (response.data.text.split('\n')[1].match(/\r/) != null) {
+					  		var verseResponse = response.data.text.split('\n')[2]
+					  	} else {
+					  		var verseResponse = response.data.text.split('\n')[1];
+					  	}
 
-			// 		  	// find book
-			// 		  	let book = this.whichBook(bookResponse);
-
-			// 		  	// find verse
-			// 		  	let verse = this.whichVerse(verseResponse);
+					  	let book = this.whichBook(bookResponse);
+					  	let verse = this.whichVerse(verseResponse);
 					   
-			// 		  	verseObjectArray.push({ "question": verse, "answer": book });
-			// 		  	this.setState({ list: verseObjectArray });
-			// 		  })
-			// 		  .catch(errors => {
-			// 		  	console.log("fail")
-			// 		  	console.log(errors)
-			// 		  });
-		// }
-
-							
-	};
-
-
-
-	doStuff = data => {
-    //Data is usable here
-    console.log(data);
-	};
-
-	parseData = (url, callBack) => {
-		Papa.parse(url, {
-      download: true,
-      dynamicTyping: true,
-      complete: function(results) {
-          callBack(results.data);
-      }
-  	});   
-	};
-
-
-
-	readCSVFile = () => {
-		console.log("reading...");
-
-		var file = new File([], "bibletaxonomy.csv", {
-							  type: "text/plain",
-							});
-		var reader = new FileReader();
-		reader.onload = function(e) {
-			console.log(e.target.result)
+					  	verseObjectArray.push({ "question": verse, "answer": book });
+					  	this.setState({ list: verseObjectArray });
+					  })
+					  .catch(errors => {
+					  	console.log("fail")
+					  	console.log(errors)
+					  });
 		};
-
-		reader.readAsArrayBuffer(file);
-
-		// var data;
-
-		// var request = new XMLHttpRequest();
-		// request.onload = this.requestListener;
-		// request.open('get', 'bibletaxonomy.csv', true);
-		// request.send();
-
-		// fetch('bibletaxonomy.csv')
-		//   .then(function(response) {
-		//     console.log(response)
-		//   })
-		//   .then(function(myJson) {
-		//     console.log(myJson);
-		//   });
-
-		Papa.parse('bibletaxonomy.csv', { 
-			header: false, 
-			delimiter: ",",
-			complete: function(results) {
-				console.log(results.data);
-			} 
-		});
+		console.log(verseObjectArray)
+		this.setState({ list: verseObjectArray });					
 	};
 
-
-
-	// 	var xhr = new XMLHttpRequest();
-	// 	xhr.open("GET", "bibletaxonomy.xls", true);
-	// 	xhr.responseType = "json";
-	
-	// 	xhr.onreadystatechange = function() {
-	// 		// console.log("yay")
-	// 		var data = new Uint8Array(xhr.response);
-
-	// 		var workbook = XLSX.read(data, { type: "array" });
-	// 		console.log(workbook);
-	// 	};
-
-	// 	// this is important!
-	// 	xhr.send();
-
-	// };
-
-	// to_json = workbook => {
-	// 	var result = {};
-	// 	workbook.SheetNames.forEach(function(sheetName) {
-	// 		var roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-	// 		if(roa.length > 0) result[sheetName] = roa;
-	// 	});
-
-	// 	return result;
-	// };
 
 	whichVerse = verseResponse => {
-			// remove leading numbers in verse
-			return verseResponse.replace(/^\d+\s*/, '');
+		// remove leading numbers in verse
+		return verseResponse.replace(/^\d+\s*/, '');
+	};
+
+	whichBook = bookResponse => {
+		// bookResponse = 1 John 3:16 (ASV 1901)
+		let book = "";
+		// if first character is a number then need to take it out and then do the normal expression
+		if (bookResponse.match(/\D/) != null) {
+			book += bookResponse[0]; // add the number to the book
+			bookResponse = bookResponse.slice(1); // remove number
+		}
+
+		// extract the name
+		book += bookResponse.match(/^\D+/)[0]
+		return book.trim();
 	};
 
 
-	whichBook = bookResponse => {
-	// bookResponse = 1 John 3:16 (ASV 1901)
-	let book = "";
-// if first character is a number then need to take it out and then do the normal expression
-	if (bookResponse.match(/\D/) != null) {
-		book += bookResponse[0]; // add the number to the book
-		bookResponse = bookResponse.slice(1); // remove number
-	}
 
-	// extract the name
-	book += bookResponse.match(/^\D+/)[0]
-	return book.trim();
-};
+
+	// doStuff = data => {
+ //    //Data is usable here
+ //    console.log(data);
+	// };
+
+	// parseData = (url, callBack) => {
+	// 	Papa.parse(url, {
+ //      download: true,
+ //      dynamicTyping: true,
+ //      complete: function(results) {
+ //          callBack(results.data);
+ //      }
+ //  	});   
+	// };
+
+
+
+	// readCSVFile = () => {
+	// 	console.log("reading...");
+
+	// 	var file = new File([], "bibletaxonomy.csv", {
+	// 						  type: "text/plain",
+	// 						});
+	// 	var reader = new FileReader();
+	// 	reader.onload = function(e) {
+	// 		console.log(e.target.result)
+	// 	};
+
+	// 	reader.readAsArrayBuffer(file);
+
+	// 	// var data;
+
+	// 	// var request = new XMLHttpRequest();
+	// 	// request.onload = this.requestListener;
+	// 	// request.open('get', 'bibletaxonomy.csv', true);
+	// 	// request.send();
+
+	// 	// fetch('bibletaxonomy.csv')
+	// 	//   .then(function(response) {
+	// 	//     console.log(response)
+	// 	//   })
+	// 	//   .then(function(myJson) {
+	// 	//     console.log(myJson);
+	// 	//   });
+
+	// 	Papa.parse('bibletaxonomy.csv', { 
+	// 		header: false, 
+	// 		delimiter: ",",
+	// 		complete: function(results) {
+	// 			console.log(results.data);
+	// 		} 
+	// 	});
+	// };
+
+
 
 
 
@@ -340,19 +298,15 @@ class GamePage extends React.Component {
 				<div style={{ display: show ? "" : "none" }}>
 					{counter <= (list.length - 1) && !isGameOver ? (
 							<div>
-								<div id="instructionsText">
-									<p className="instructions">start typing and hit enter to submit your question</p>
-									<p className="instructions">if you don't know, then type <span className="alert">skip</span></p>
-								</div>
-									<h1><Question 
-												questionAnswered={this.nextQuestion} 
-												key={counter} 
-												category={this.state.list[`${counter}`]} 
-												addToScore={this.updateScore} 
-												type={this.state.category} 
-											/>
-									</h1>
-									<h1>your score is {score.toFixed(2)}</h1>
+								<h1><Question 
+											questionAnswered={this.nextQuestion} 
+											key={counter} 
+											category={this.state.list[`${counter}`]} 
+											addToScore={this.updateScore} 
+											type={this.state.category} 
+										/>
+								</h1>
+								<h1>your score is {score.toFixed(2)}</h1>
 								{ !isGameOver ? <Timer onEnd={this.endGame} /> : null }
 							</div>
 						) : (
