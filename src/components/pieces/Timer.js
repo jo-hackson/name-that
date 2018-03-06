@@ -8,11 +8,12 @@ class Timer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { 
-			countdown: 20 
+			countdown: 20
 		};
 	};
 
 	componentDidMount() {
+
 		this.timeId = setInterval(
 		() => this.tick(),
 		1000 );

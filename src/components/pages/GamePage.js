@@ -1,8 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-// import XLSX from 'xlsx';
-import Papa from 'papaparse';
+// import Papa from 'papaparse';
 import './../../styles/GamePage.css';
 // import Copyright from '../pieces/Copyright';
 import Question from '../pieces/Question';
@@ -32,7 +31,6 @@ class GamePage extends React.Component {
 		switch (this.state.category) {
 			case 'verse': 
 				var verses = getVerseNames();
-				// get verses and send to getVerses
 				this.getVerses(verses);
 				break;
 			case 'tune':
@@ -44,8 +42,6 @@ class GamePage extends React.Component {
 			default:
 				break;
 		}
-
-		
 
 		setTimeout(this.tick, 5000);
 	};
@@ -91,10 +87,8 @@ class GamePage extends React.Component {
 					  	console.log(errors)
 					  });
 		};
-		console.log(verseObjectArray)
 		this.setState({ list: verseObjectArray });					
 	};
-
 
 	whichVerse = verseResponse => {
 		// remove leading numbers in verse
@@ -102,7 +96,6 @@ class GamePage extends React.Component {
 	};
 
 	whichBook = bookResponse => {
-		// bookResponse = 1 John 3:16 (ASV 1901)
 		let book = "";
 		// if first character is a number then need to take it out and then do the normal expression
 		if (bookResponse.match(/\D/) != null) {
@@ -114,9 +107,6 @@ class GamePage extends React.Component {
 		book += bookResponse.match(/^\D+/)[0]
 		return book.trim();
 	};
-
-
-
 
 	// doStuff = data => {
  //    //Data is usable here
@@ -132,8 +122,6 @@ class GamePage extends React.Component {
  //      }
  //  	});   
 	// };
-
-
 
 	// readCSVFile = () => {
 	// 	console.log("reading...");
@@ -307,7 +295,7 @@ class GamePage extends React.Component {
 										/>
 								</h1>
 								<h1>your score is {score.toFixed(2)}</h1>
-								{ !isGameOver ? <Timer onEnd={this.endGame} /> : null }
+								{ !isGameOver && show ? <Timer onEnd={this.endGame} /> : null }
 							</div>
 						) : (
 							null
