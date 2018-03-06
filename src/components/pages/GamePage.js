@@ -41,28 +41,18 @@ class GamePage extends React.Component {
 				break;
 			default:
 				break;
-		}
-
+		};
 		setTimeout(this.tick, 5000);
 	};
 
+
 	tick = () => {
-		console.log("blah");
 		this.setState({ show: true });
 	};
 
+
 	getVerses = verses => {
 		console.log("getting verses...");
-
-		// this.readCSVFile();
-
-		// this.setState({ list: [{"question": "Blessed are the poor in spirit, for theirs is the kingdom of heaven.", "answer": "Matthew"}, 
-		// 											{"question": "Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the LORD your God is with you wherever you go.", "answer": "James"},
-		// 											{"question": "Have this mind among yourselves, which is yours in Christ Jesus,who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself, by taking the form of a servant, being born in the likeness of men.", "answer": "Philippians"},
-		// 											{"question": "If this be so, our God whom we serve is able to deliver us from the burning fiery furnace, and he will deliver us out of your hand, O king.", "answer": "Daniel"}, 
-		// 											{"question": "Do not look on his appearance or on the height of his stature, because I have rejected him. For the LORD sees not as man sees: man looks on the outward appearance, cbut the LORD looks on the heart.", "answer": "1 Samuel"},
-		// 											{"question": "And in Antioch the disciples were first called vChristians.", "answer": "Acts"}] 
-		// 				  })
 
 		let verseObjectArray = [];
 
@@ -90,10 +80,12 @@ class GamePage extends React.Component {
 		this.setState({ list: verseObjectArray });					
 	};
 
+
 	whichVerse = verseResponse => {
 		// remove leading numbers in verse
 		return verseResponse.replace(/^\d+\s*/, '');
 	};
+
 
 	whichBook = bookResponse => {
 		let book = "";
@@ -108,78 +100,40 @@ class GamePage extends React.Component {
 		return book.trim();
 	};
 
-	// doStuff = data => {
- //    //Data is usable here
- //    console.log(data);
-	// };
-
-	// parseData = (url, callBack) => {
-	// 	Papa.parse(url, {
- //      download: true,
- //      dynamicTyping: true,
- //      complete: function(results) {
- //          callBack(results.data);
- //      }
- //  	});   
-	// };
-
-	// readCSVFile = () => {
-	// 	console.log("reading...");
-
-	// 	var file = new File([], "bibletaxonomy.csv", {
-	// 						  type: "text/plain",
-	// 						});
-	// 	var reader = new FileReader();
-	// 	reader.onload = function(e) {
-	// 		console.log(e.target.result)
-	// 	};
-
-	// 	reader.readAsArrayBuffer(file);
-
-	// 	// var data;
-
-	// 	// var request = new XMLHttpRequest();
-	// 	// request.onload = this.requestListener;
-	// 	// request.open('get', 'bibletaxonomy.csv', true);
-	// 	// request.send();
-
-	// 	// fetch('bibletaxonomy.csv')
-	// 	//   .then(function(response) {
-	// 	//     console.log(response)
-	// 	//   })
-	// 	//   .then(function(myJson) {
-	// 	//     console.log(myJson);
-	// 	//   });
-
-	// 	Papa.parse('bibletaxonomy.csv', { 
-	// 		header: false, 
-	// 		delimiter: ",",
-	// 		complete: function(results) {
-	// 			console.log(results.data);
-	// 		} 
-	// 	});
-	// };
-
-
-
-
-
 
 	getTunes = () => {
 		console.log("getting tunes...")
-		this.setState({ list: [{"question": "Take a sad song and make it better", "answer": "The Beatles", "bonus": "some song"}, 
-													{"question": "Friday night and the lights are low", "answer": "ABBA", "bonus": "some song"},
-													{"question": "아름다워사랑스러워 그래 너 hey 그래 바로 너 hey", "answer": "PSY", "bonus": "some song"},
-													{"question": "I'm bulletproof nothing to lose", "answer": "David Guetta", "bonus": "some song"}, 
-													{"question": "Become so tired, so much more aware", "answer": "Linkin Park", "bonus": "some song"},
-													{"question": "While he's having a smoke", "answer": "The Killers"}, "bonus": "some song"] 
-						  })
+		// this.setState({ list: [{"question": "Take a sad song and make it better", "answer": "The Beatles", "bonus": "some song"}, 
+		// 											{"question": "Friday night and the lights are low", "answer": "ABBA", "bonus": "some song"},
+		// 											{"question": "아름다워사랑스러워 그래 너 hey 그래 바로 너 hey", "answer": "PSY", "bonus": "some song"},
+		// 											{"question": "I'm bulletproof nothing to lose", "answer": "David Guetta", "bonus": "some song"}, 
+		// 											{"question": "Become so tired, so much more aware", "answer": "Linkin Park", "bonus": "some song"},
+		// 											{"question": "While he's having a smoke", "answer": "The Killers"}, "bonus": "some song"] 
+		// 				  })
 
 		// CHECK IF THIS WILL WORK
-		axios(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`, { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } })
-			.then(results => {
-				console.log(results.headers)
-			});
+		// axios(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`)
+		// 	.then(results => {
+		// 		console.log("blah")
+		// 		console.log(results.headers)
+		// 	});
+
+		const proxyurl = "https://name-that-book.herokuapp.com/";
+		const url = `https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`
+		fetch(proxyurl + url)
+			.then(response => {
+				console.log("blah")
+				console.log(response)
+			})
+			.catch(() => {
+				console.log("errors with CORS")
+			})
+
+		// axios(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`, { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } })
+		// .then(results => {
+		// 	console.log("blah")
+		// 	console.log(results.headers)
+		// });
 
 		// axios.get(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`, { crossdomain: true })
 		// 	.then(response => {
@@ -242,9 +196,11 @@ class GamePage extends React.Component {
 		this.setState({ isGameOver: this.state.counter === this.state.list.length });
 	};
 
+
 	endGame = () => {
 		this.setState({ isGameOver: true });
 	};
+
 
 	shuffle = array => {
 		var currentIndex = array.length, temporaryValue, randomIndex;
@@ -261,11 +217,10 @@ class GamePage extends React.Component {
 	};
 
 
-
-
 	updateScore = (newScore) => {
 		this.setState({ score: this.state.score + newScore })
 	};
+
 
 	capitalize = string => {
 		string.charAt(0).toUpperCase() + string.slice(1);
