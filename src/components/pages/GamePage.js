@@ -70,7 +70,6 @@ class GamePage extends React.Component {
 					  	let verse = this.whichVerse(verseResponse);
 					   
 					  	verseObjectArray.push({ "question": verse, "answer": book });
-					  	this.setState({ list: verseObjectArray });
 					  })
 					  .catch(errors => {
 					  	console.log("fail")
@@ -103,63 +102,59 @@ class GamePage extends React.Component {
 
 	getTunes = () => {
 		console.log("getting tunes...")
-		// this.setState({ list: [{"question": "Take a sad song and make it better", "answer": "The Beatles", "bonus": "some song"}, 
-		// 											{"question": "Friday night and the lights are low", "answer": "ABBA", "bonus": "some song"},
-		// 											{"question": "아름다워사랑스러워 그래 너 hey 그래 바로 너 hey", "answer": "PSY", "bonus": "some song"},
-		// 											{"question": "I'm bulletproof nothing to lose", "answer": "David Guetta", "bonus": "some song"}, 
-		// 											{"question": "Become so tired, so much more aware", "answer": "Linkin Park", "bonus": "some song"},
-		// 											{"question": "While he's having a smoke", "answer": "The Killers"}, "bonus": "some song"] 
-		// 				  })
 
-		// CHECK IF THIS WILL WORK
-		// axios(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`)
-		// 	.then(results => {
-		// 		console.log("blah")
-		// 		console.log(results.headers)
-		// 	});
+		var lyricObjectArray = [];
 
-		const proxyurl = "https://name-that-book.herokuapp.com/";
-		const url = `https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`
-		fetch(proxyurl + url)
-			.then(response => {
-				console.log("blah")
-				console.log(response)
+		const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+		const apiUrl = `https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=100&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`;
+		fetch(proxyUrl + apiUrl)
+			.then(response => response.json())
+			.then(trackContent => {
+				var allTracks = trackContent.message.body.track_list;
+				var randomNumberArray = this.randomizedNumbers(12); // get 12 random numbers
+				var randomizedTracks = []
+
+				// get the 12 random track ids
+				for (var j = 0; j < randomNumberArray.length; j++) {
+					var thisTrack = trackContent.message.body.track_list[randomNumberArray[j]].track
+					// console.log(thisTrack)
+					randomizedTracks.push({"trackId": thisTrack.track_id, "artistName": thisTrack.artist_name, "trackName": thisTrack.track_name})
+				}
+				// console.log(randomizedTracks)
+
+				for (var i = 0; i < randomizedTracks.length - 1; i++) {
+					let trackId = randomizedTracks[i].trackId;
+					let artistName = randomizedTracks[i].artistName;
+					let trackName = randomizedTracks[i].trackName;
+
+					let trackApiUrl = `http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`
+					fetch(proxyUrl + trackApiUrl)
+						.then(response => response.json())
+						.then(lyricContent => {
+							// console.log("lyric content")
+							// console.log(lyricContent)
+							let lyric = lyricContent.message.body.lyrics.lyrics_body.split('\n')[0]
+							// console.log("lyric")
+							// console.log(lyric)
+							// let artistName = randomizedTracks[i].artistName;
+							// let trackName = randomizedTracks[i].trackName;
+							// console.log(randomizedTracks[i])
+							lyricObjectArray.push({ "answer": artistName, "question": lyric, "bonus": trackName });
+							console.log("lyric object array")
+							console.log(lyricObjectArray)
+						})
+						.catch(() => console.log('errors with track'))
+				}
+				this.setState({ list: lyricObjectArray });
 			})
 			.catch(() => {
-				console.log("errors with CORS")
+				console.log("errors")
 			})
-
-		// axios(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`, { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } })
-		// .then(results => {
-		// 	console.log("blah")
-		// 	console.log(results.headers)
-		// });
-
-		// axios.get(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`, { crossdomain: true })
-		// 	.then(response => {
-		// 		console.log(response);
-		// 	});
-
-		// // var lyricObjectArray = [];
-		// // var allTracks = response.message.body.track_list;
-
-		// // for (var i = 0; i < allTracks.length - 1; i++) {
-		// // 	let trackId = allTracks[i].track.track_id;
-		// // 	// URL http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_MUSIX_API_KEY}
-		// // 	let lyric = response.message.body.lyrics.lyrics_body.split('\n')[0]
-		// // 	let artistName = allTracks[i].track.artist_name;
-		// // 	let trackName = allTracks[i].track.track_name;
-		// // 	// ADD BACK TO FOLLOWING LINE: "question": lyric
-		// // 	lyricObjectArray.push({ "answer": artistName, "bonus": trackName });	
-		// // }
-
-		// // this.setState({ list: lyricObjectArray });
-
 	};
 
 	getCapitals = () => {
 		// response.data.[0..250]
-		var randomNumberArray = this.randomizedNumbers();
+		var randomNumberArray = this.randomizedNumbers(250);
 		// console.log(randomNumberArray)
 		
 		axios.get('https://restcountries.eu/rest/v2/all')
@@ -180,10 +175,10 @@ class GamePage extends React.Component {
 	};
 
 
-	randomizedNumbers = () => {
+	randomizedNumbers = limit => {
 		var array = [];
-		while (array.length < 10) {
-			var randomNumber = Math.floor(Math.random() * 250) + 1;
+		while (array.length < 12) {
+			var randomNumber = Math.floor(Math.random() * limit) + 1;
 			if (array.indexOf(randomNumber) > -1) continue;
 			array[array.length] = randomNumber;
 		}
