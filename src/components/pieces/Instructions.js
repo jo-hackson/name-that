@@ -17,13 +17,13 @@ class Instructions extends React.Component {
 	componentDidMount = () => {
 		switch (this.props.category) {
 			case 'verse': 
-				//
+				this.setState({ instructions: ["verses from a book in the Bible will appear", "type the name of the book", "try to hurry! you will only have 20 seconds"] });
 				break;
 			case 'tune':
 				this.setState({ instructions: ["lyrics from a song will show", "type the artist of the song", "try to hurry! you will only have 20 seconds"] });
 				break;
 			case 'capital':
-				//
+				this.setState({ instructions: ["the name of the capital of a country will appear", "type the name of the country", "try to hurry! you will only have 20 seconds"] });
 				break;
 			default:
 				break;
