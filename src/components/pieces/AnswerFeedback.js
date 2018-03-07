@@ -48,10 +48,16 @@ class AnswerFeedback extends React.Component {
 
 		let answerFeedback;
 
-		if (submittedAnswer && !isCorrect && (type === "tune")) {
-			answerFeedback = (
-				<h1>whatabust, the lyric is from  <span className="correctAnswer">{bonus}</span>  by  <span className="correctAnswer">{correctAnswer}</span></h1>
-			);
+		if (submittedAnswer && (type === "tune")) {
+			if (!isCorrect) {
+				answerFeedback = (
+					<h1>whatabust! the lyric is from  <span className="correctAnswer">{bonus}</span>  by  <span className="correctAnswer">{correctAnswer}</span></h1>
+				);
+			} else {
+				answerFeedback = (
+					<h1>yap! the lyric is from  <span className="correctAnswer">{bonus}</span>  by  <span className="correctAnswer">{correctAnswer}</span></h1>
+				);
+			};
 		} else if (submittedAnswer && !isCorrect) {
 			answerFeedback = (
 				<h1>whatabust, the correct answer is  <span className="correctAnswer">{correctAnswer}</span></h1>
