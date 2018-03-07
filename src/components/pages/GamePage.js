@@ -130,7 +130,7 @@ class GamePage extends React.Component {
 						.then(response => response.json())
 						.then(lyricContent => {
 							let splitLyrics = lyricContent.message.body.lyrics.lyrics_body.split('\n');
-							let lyricsLength = splitLyrics.length - 3;
+							let lyricsLength = splitLyrics.length - 4;
 							let randomNumber = Math.floor(Math.random() * lyricsLength);
 
 							if (splitLyrics[randomNumber] == "") randomNumber += 1;
@@ -220,15 +220,14 @@ class GamePage extends React.Component {
 	};	
 
 
-
 	render() {
-		const { counter, list, score, isGameOver, show } = this.state;
+		const { counter, list, score, isGameOver, show, category } = this.state;
 
 		return (
 			<div id="body-blah">
 
 				<div style={{ display: !show ? "" : "none" }}>
-					<Instructions />
+					<Instructions category={category}/>
 				</div>
 
 				<div style={{ display: show ? "" : "none" }}>
@@ -239,7 +238,7 @@ class GamePage extends React.Component {
 											key={counter} 
 											category={this.state.list[`${counter}`]} 
 											addToScore={this.updateScore} 
-											type={this.state.category} 
+											type={category} 
 										/>
 								</h1>
 								<h1>your score is {score.toFixed(2)}</h1>
