@@ -13,7 +13,6 @@ class Timer extends React.Component {
 	};
 
 	componentDidMount() {
-
 		this.timeId = setInterval(
 		() => this.tick(),
 		1000 );
