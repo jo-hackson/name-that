@@ -21,11 +21,3 @@ function randomizedNumbers() {
 	};
 	return array.map(number => number - 1);
 };
-
-
-// export function parseCSV() {
-// 	// Papa.parse(all_bible_verses)
-
-// };
-
-

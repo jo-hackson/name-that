@@ -70,7 +70,6 @@ class GamePage extends React.Component {
 					  	let verse = this.whichVerse(verseResponse);
 					   
 					  	verseObjectArray.push({ "question": verse, "answer": book });
-					  	this.setState({ list: verseObjectArray });
 					  })
 					  .catch(errors => {
 					  	console.log("fail")
@@ -103,64 +102,59 @@ class GamePage extends React.Component {
 
 	getTunes = () => {
 		console.log("getting tunes...")
-		// this.setState({ list: [{"question": "Take a sad song and make it better", "answer": "The Beatles", "bonus": "some song"}, 
-		// 											{"question": "Friday night and the lights are low", "answer": "ABBA", "bonus": "some song"},
-		// 											{"question": "아름다워사랑스러워 그래 너 hey 그래 바로 너 hey", "answer": "PSY", "bonus": "some song"},
-		// 											{"question": "I'm bulletproof nothing to lose", "answer": "David Guetta", "bonus": "some song"}, 
-		// 											{"question": "Become so tired, so much more aware", "answer": "Linkin Park", "bonus": "some song"},
-		// 											{"question": "While he's having a smoke", "answer": "The Killers"}, "bonus": "some song"] 
-		// 				  })
 
-		// CHECK IF THIS WILL WORK
-		// axios(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`)
-		// 	.then(results => {
-		// 		console.log("blah")
-		// 		console.log(results.headers)
-		// 	});
+		var lyricObjectArray = [];
 
-		const proxyurl = "https://name-that-book.herokuapp.com/";
-		const url = `https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`
-		fetch(proxyurl + url)
-			.then(response => {
-				console.log("blah")
-				console.log(response)
+		const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+		const apiUrl = `https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=100&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`;
+		fetch(proxyUrl + apiUrl)
+			.then(response => response.json())
+			.then(trackContent => {
+				var allTracks = trackContent.message.body.track_list;
+				var randomNumberArray = this.randomizedNumbers(100, 12); // get 12 random numbers
+				var randomizedTracks = []
+
+				// get the 12 random track ids
+				for (var j = 0; j < randomNumberArray.length; j++) {
+					var thisTrack = trackContent.message.body.track_list[randomNumberArray[j]].track
+					randomizedTracks.push({"trackId": thisTrack.track_id, "artistName": thisTrack.artist_name, "trackName": thisTrack.track_name})
+				}
+
+				for (var i = 0; i < randomizedTracks.length; i++) {
+					let trackId = randomizedTracks[i].trackId;
+					let artistName = randomizedTracks[i].artistName;
+					let trackName = randomizedTracks[i].trackName;
+
+					let trackApiUrl = `http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`
+					fetch(proxyUrl + trackApiUrl)
+						.then(response => response.json())
+						.then(lyricContent => {
+							let splitLyrics = lyricContent.message.body.lyrics.lyrics_body.split('\n');
+							let lyricsLength = splitLyrics.length - 4;
+							let randomNumber = Math.floor(Math.random() * lyricsLength);
+
+							if (splitLyrics[randomNumber] == "") randomNumber += 1;
+
+							let firstLyric = splitLyrics[randomNumber];
+							let secondLyric = splitLyrics[randomNumber + 1] !== "" ? splitLyrics[randomNumber + 1] : splitLyrics[randomNumber + 2];
+
+							let lyric = firstLyric + " / " + secondLyric;
+
+							lyricObjectArray.push({ "answer": artistName, "question": lyric, "bonus": trackName });
+							console.log(lyricObjectArray)
+						})
+						.catch(() => console.log('errors with track'))
+				}
+				this.setState({ list: lyricObjectArray });
 			})
 			.catch(() => {
-				console.log("errors with CORS")
+				console.log("errors")
 			})
-
-		// axios(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`, { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } })
-		// .then(results => {
-		// 	console.log("blah")
-		// 	console.log(results.headers)
-		// });
-
-		// axios.get(`https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=12&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`, { crossdomain: true })
-		// 	.then(response => {
-		// 		console.log(response);
-		// 	});
-
-		// // var lyricObjectArray = [];
-		// // var allTracks = response.message.body.track_list;
-
-		// // for (var i = 0; i < allTracks.length - 1; i++) {
-		// // 	let trackId = allTracks[i].track.track_id;
-		// // 	// URL http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_MUSIX_API_KEY}
-		// // 	let lyric = response.message.body.lyrics.lyrics_body.split('\n')[0]
-		// // 	let artistName = allTracks[i].track.artist_name;
-		// // 	let trackName = allTracks[i].track.track_name;
-		// // 	// ADD BACK TO FOLLOWING LINE: "question": lyric
-		// // 	lyricObjectArray.push({ "answer": artistName, "bonus": trackName });	
-		// // }
-
-		// // this.setState({ list: lyricObjectArray });
-
 	};
 
 	getCapitals = () => {
 		// response.data.[0..250]
-		var randomNumberArray = this.randomizedNumbers();
-		// console.log(randomNumberArray)
+		var randomNumberArray = this.randomizedNumbers(250, 12);
 		
 		axios.get('https://restcountries.eu/rest/v2/all')
 			.then(response => {
@@ -174,16 +168,15 @@ class GamePage extends React.Component {
 					countryArray.push({ question: capital, answer: country});
 				}
 				this.setState({ list: countryArray });
-			});
-
-
+			})
+			.catch(() => console.log("errors in api call"))
 	};
 
 
-	randomizedNumbers = () => {
+	randomizedNumbers = (limit, quantityOfNumbers) => {
 		var array = [];
-		while (array.length < 10) {
-			var randomNumber = Math.floor(Math.random() * 250) + 1;
+		while (array.length < quantityOfNumbers) {
+			var randomNumber = Math.floor(Math.random() * limit) + 1;
 			if (array.indexOf(randomNumber) > -1) continue;
 			array[array.length] = randomNumber;
 		}
@@ -227,15 +220,14 @@ class GamePage extends React.Component {
 	};	
 
 
-
 	render() {
-		const { counter, list, score, isGameOver, show } = this.state;
+		const { counter, list, score, isGameOver, show, category } = this.state;
 
 		return (
 			<div id="body-blah">
 
 				<div style={{ display: !show ? "" : "none" }}>
-					<Instructions />
+					<Instructions category={category}/>
 				</div>
 
 				<div style={{ display: show ? "" : "none" }}>
@@ -246,7 +238,7 @@ class GamePage extends React.Component {
 											key={counter} 
 											category={this.state.list[`${counter}`]} 
 											addToScore={this.updateScore} 
-											type={this.state.category} 
+											type={category} 
 										/>
 								</h1>
 								<h1>your score is {score.toFixed(2)}</h1>
