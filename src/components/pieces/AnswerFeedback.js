@@ -24,7 +24,10 @@ class AnswerFeedback extends React.Component {
 
 	submit = () => {
 		this.setState({ submittedAnswer: true });
-		if (this.state.data.userGuess !== "skip") {
+
+		if (this.state.data.userGuess === "skip") {
+			setTimeout(this.props.questionAnswered, 1000, false)
+		} else {
 			const formattedAnswer = this.formatData(this.state.data.userGuess);
 			const realAnswer = this.formatData(this.props.correctAnswer);
 
@@ -81,7 +84,7 @@ class AnswerFeedback extends React.Component {
 					</Form.Field>
 				</Form>
 				{answerFeedback}
-				{isCorrect && <h1 className="blue-font">woot woot</h1>}
+				{isCorrect && <h1 className="blue-font">woot woot! you got it correct!</h1>}
 			</div>
 		);
 	}
