@@ -14,15 +14,17 @@ button {
 #quotes {
 	font-size: 2em;
 	font-family: 'Passion One', cursive;
+	color: #191970;
 }
 
 #question {
 	font-family: 'Playfair Display', serif;
+	color: #191970;
 }
 
 .instructions {
-	color: #778899;
-	font-family: 'Roboto', sans-serif;
+	color: #191970;
+	font-family: 'Playfair Display', serif;
 }
 
 span.alert {

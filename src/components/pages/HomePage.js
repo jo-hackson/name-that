@@ -10,21 +10,21 @@ class HomePage extends React.Component {
 
 		return(
 			<div>
-				<h1 id="headline"><span className="gray-element">let's play</span> name that<span className="gray-element"> ...</span></h1>
+				<h1 id="headline">name that...</h1>
 
 				<div id="categories">
 					<div className="individual-category" >
-						<h1 id="book-bible">book of the Bible</h1>
+						<h1 className="category">book of the Bible</h1>
 						<Link to={{ pathname: '/games', state: { category: "verse" } }} ><i className="video play icon"/></Link>
 					</div>
 
 					<div className="individual-category">
-						<h1 id="tune">artist</h1>
+						<h1 className="category">artist</h1>
 						<Link to={{ pathname: '/games', state: {category: "tune" } }}><i className="video play icon"/></Link>
 					</div>
 
 					<div className="individual-category">
-						<h1 id="currency">capitals (of countries)</h1>
+						<h1 className="category">country's capital</h1>
 						<Link to={{ pathname: '/games', state: {category: "capital" } }}><i className="video play icon"/></Link>
 					</div>
 

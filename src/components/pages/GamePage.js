@@ -1,14 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-// import Papa from 'papaparse';
 import './../../styles/GamePage.css';
-// import Copyright from '../pieces/Copyright';
 import Question from '../pieces/Question';
 import Timer from '../pieces/Timer';
 import EndGame from '../pieces/EndGame';
 import Instructions from '../pieces/Instructions';
 import { getVerseNames } from '../modules/RandomVerses';
+
 
 class GamePage extends React.Component {
 
@@ -21,7 +20,12 @@ class GamePage extends React.Component {
 			counter: 0,
 			isGameOver: false,
 			category: this.props.location.state.category,
-			show: false
+			show: false,
+			scoreBoard: { 
+				verse: [], 
+				tune: [], 
+				capital: []
+			}
 		}
 	};
 
@@ -105,11 +109,9 @@ class GamePage extends React.Component {
 
 		var lyricObjectArray = [];
 
-		// const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-		// const proxyUrl = 'https:// name-that-book.herokuapp.com/';
+		const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 		const apiUrl = `https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=100&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`;
-		// fetch(proxyUrl + apiUrl)
-		fetch(apiUrl)
+		fetch(proxyUrl + apiUrl)
 			.then(response => response.json())
 			.then(trackContent => {	
 				var allTracks = trackContent.message.body.track_list;
@@ -223,7 +225,7 @@ class GamePage extends React.Component {
 
 
 	render() {
-		const { counter, list, score, isGameOver, show, category } = this.state;
+		const { counter, list, score, isGameOver, show, category, scoreboard } = this.state;
 
 		return (
 			<div id="body-blah">
@@ -243,16 +245,15 @@ class GamePage extends React.Component {
 											type={category} 
 										/>
 								</h1>
-								<h1>your score is {score.toFixed(2)}</h1>
+								<h1 className="blue-font">your score is {score.toFixed(2)}</h1>
 								{ !isGameOver && show ? <Timer onEnd={this.endGame} /> : null }
 							</div>
 						) : (
 							null
 						)}
 
-					{ isGameOver && <EndGame score={score} /> }
+					{ isGameOver && <EndGame score={score} scoreboard={scoreboard}/> }
 				</div>
-				{/* <Copyright /> */}
 				<div className="bottomBorder">
 				</div>
 			</div>

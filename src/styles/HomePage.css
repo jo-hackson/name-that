@@ -1,38 +1,32 @@
-@import url('https://fonts.googleapis.com/css?family=Bevan|Barrio|Alegreya+Sans+SC');
+@import url('https://fonts.googleapis.com/css?family=Bevan|Rammetto+One|Raleway');
 
 .icon {
 	font-size: 4em !important;
-	color: #008B8B;
+	color: #DAA520;
 	padding-top: 20px;
 }
 
 h1#headline {
-	font-family: 'Barrio', cursive;
+	font-family: 'Rammetto One', cursive;
 	font-size: 4em;
 	padding-bottom: 20px;
+	color: #191970;
 }
 
 
 #categories {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
 	justify-items: center;
 	align items: center;
 	justify-content: center;
+	color: #191970;
 }
 
 #individual-categories {
 	width: 10px !important;
 }
 
-#book-bible {
-	font-family: 'Alegreya Sans SC', sans-serif;
-}
-
-#tune {
-	font-family: 'Bevan', cursive;
-}
-
-span.gray-element {
-	color: #778899;
+h1.category {
+	font-family: 'Raleway', sans-serif;
 }
