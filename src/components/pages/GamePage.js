@@ -128,7 +128,7 @@ class GamePage extends React.Component {
 					let trackName = randomizedTracks[i].trackName;
 
 					let trackApiUrl = `http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`
-					fetch(proxyUrl + trackApiUrl)
+					fetch(trackApiUrl)
 						.then(response => response.json())
 						.then(lyricContent => {
 							let splitLyrics = lyricContent.message.body.lyrics.lyrics_body.split('\n');
