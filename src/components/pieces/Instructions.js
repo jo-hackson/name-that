@@ -20,7 +20,7 @@ class Instructions extends React.Component {
 				this.setState({ instructions: ["verses from a book in the Bible will appear", "type the name of the book", "hurry!", "you will only have 30 seconds"] });
 				break;
 			case 'tune':
-				this.setState({ instructions: ["lyrics from a song will show", "type the artist of the song", "hurry!", "you will only have 20 seconds"] });
+				this.setState({ instructions: ["lyrics from a song will show", "type the artist of the song", "hurry!", "you will only have 30 seconds"] });
 				break;
 			case 'capital':
 				this.setState({ instructions: ["the name of the capital of a country will appear", "type the name of the country", "hurry!", "you will only have 30 seconds"] });
