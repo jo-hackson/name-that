@@ -7,7 +7,6 @@ import Timer from '../pieces/Timer';
 import EndGame from '../pieces/EndGame';
 import Instructions from '../pieces/Instructions';
 import { getVerseNames } from '../modules/RandomVerses';
-// import Copyright from '../pieces/Copyright';
 
 
 class GamePage extends React.Component {
@@ -255,7 +254,6 @@ class GamePage extends React.Component {
 
 					{ isGameOver && <EndGame score={score} /> }
 				</div>
-				{/* <Copyright /> */}
 				<div className="bottomBorder">
 				</div>
 			</div>
