@@ -246,7 +246,7 @@ class GamePage extends React.Component {
 											type={category} 
 										/>
 								</h1>
-								<h1>your score is {score.toFixed(2)}</h1>
+								<h1 className="blue-font">your score is {score.toFixed(2)}</h1>
 								{ !isGameOver && show ? <Timer onEnd={this.endGame} /> : null }
 							</div>
 						) : (

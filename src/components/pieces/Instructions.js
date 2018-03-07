@@ -53,7 +53,7 @@ class Instructions extends React.Component {
 
 		return(
 			<div>
-				<h1 className="instructions">how to play</h1>
+				<h1 className="instructions blue-font">how to play</h1>
 				{array}
 			</div>
 		);

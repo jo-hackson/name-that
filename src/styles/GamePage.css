@@ -14,10 +14,12 @@ button {
 #quotes {
 	font-size: 2em;
 	font-family: 'Passion One', cursive;
+	color: #191970;
 }
 
 #question {
 	font-family: 'Playfair Display', serif;
+	color: #191970;
 }
 
 .instructions {
