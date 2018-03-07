@@ -225,7 +225,7 @@ class GamePage extends React.Component {
 
 
 	render() {
-		const { counter, list, score, isGameOver, show, category } = this.state;
+		const { counter, list, score, isGameOver, show, category, scoreboard } = this.state;
 
 		return (
 			<div id="body-blah">
@@ -252,7 +252,7 @@ class GamePage extends React.Component {
 							null
 						)}
 
-					{ isGameOver && <EndGame score={score} /> }
+					{ isGameOver && <EndGame score={score} scoreboard={scoreboard}/> }
 				</div>
 				<div className="bottomBorder">
 				</div>

@@ -8,7 +8,7 @@ class Timer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { 
-			countdown: 20
+			countdown: 30
 		};
 	};
 

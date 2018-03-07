@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 class EndGame extends React.Component {
 
+	// check the score and see if it is one of the top ten
+
 	render() {
 		return (
 			<div>
