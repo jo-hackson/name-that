@@ -151,8 +151,8 @@ class GamePage extends React.Component {
 				}
 				this.setState({ list: lyricObjectArray });
 			})
-			.catch(() => {
-				console.log("errors")
+			.catch(errors => {
+				console.log(errors)
 			})
 	};
 
