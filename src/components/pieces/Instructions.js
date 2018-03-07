@@ -17,13 +17,13 @@ class Instructions extends React.Component {
 	componentDidMount = () => {
 		switch (this.props.category) {
 			case 'verse': 
-				this.setState({ instructions: ["verses from a book in the Bible will appear", "type the name of the book", "hurry!", "you will only have 30 seconds"] });
+				this.setState({ instructions: ["verses from a book in the Bible will appear", "type the name of the book", "type 'skip' to go the next question", "each round is 30 seconds"] });
 				break;
 			case 'tune':
-				this.setState({ instructions: ["lyrics from a song will show", "type the artist of the song", "hurry!", "you will only have 30 seconds"] });
+				this.setState({ instructions: ["lyrics from a song will show", "type the artist of the song", "you can type 'skip' to go the next question", "each round is 30 seconds"] });
 				break;
 			case 'capital':
-				this.setState({ instructions: ["the name of the capital of a country will appear", "type the name of the country", "hurry!", "you will only have 30 seconds"] });
+				this.setState({ instructions: ["the name of the capital of a country will appear", "type the name of the country", "you can type 'skip' to go the next question", "each round is 30 seconds"] });
 				break;
 			default:
 				break;
@@ -31,7 +31,7 @@ class Instructions extends React.Component {
 
 		this.timeId = setInterval(
 		() => this.tick(),
-		1000);
+		850);
 	}
 
 	tick = () => {
