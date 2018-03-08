@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+
+
 h2.timer {
 	font-size: 3em;
 	padding-top: 50px;
 	color: #191970;
+	font-family: 'Orbitron', sans-serif;
 }
 
 .correctAnswer {
