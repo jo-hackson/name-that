@@ -128,6 +128,7 @@ class GamePage extends React.Component {
 				}
 
 				for (var i = 0; i < randomizedTracks.length; i++) {
+					console.log(randomizedTracks)
 					let trackId = randomizedTracks[i].trackId;
 					let artistName = randomizedTracks[i].artistName;
 					let trackName = randomizedTracks[i].trackName;
