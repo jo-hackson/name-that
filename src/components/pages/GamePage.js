@@ -121,7 +121,7 @@ class GamePage extends React.Component {
 				// get the 12 random track ids
 				for (var j = 0; j < randomNumberArray.length; j++) {
 					var thisTrack = trackContent.message.body.track_list[randomNumberArray[j]].track
-					// console.log(thisTrack.artist_name + "   " + thisTrack.track_name)
+					console.log(thisTrack.artist_name + "   " + thisTrack.track_name)
 					randomizedTracks.push({"trackId": thisTrack.track_id, "artistName": thisTrack.artist_name, "trackName": thisTrack.track_name})
 				}
 
@@ -138,7 +138,7 @@ class GamePage extends React.Component {
 							let lyricsLength = splitLyrics.length - 4;
 							let randomNumber = Math.floor(Math.random() * lyricsLength);
 
-							if (splitLyrics[randomNumber] == "") randomNumber += 1;
+							if (splitLyrics[randomNumber] === "") randomNumber += 1;
 
 							let firstLyric = splitLyrics[randomNumber];
 							let secondLyric = splitLyrics[randomNumber + 1] !== "" ? splitLyrics[randomNumber + 1] : splitLyrics[randomNumber + 2];
@@ -151,6 +151,7 @@ class GamePage extends React.Component {
 						.catch(errors => console.log(errors))
 				}
 				this.setState({ list: lyricObjectArray });
+				console.log("state updated")
 			})
 			.catch(errors => console.log(errors))
 	};
