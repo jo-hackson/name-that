@@ -109,18 +109,19 @@ class GamePage extends React.Component {
 
 		var lyricObjectArray = [];
 
-		const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+		const proxyUrl = 'https://safe-earth-71035.herokuapp.com/';
 		const apiUrl = `https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=100&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`;
 		fetch(proxyUrl + apiUrl)
 			.then(response => response.json())
 			.then(trackContent => {	
 				var allTracks = trackContent.message.body.track_list;
+				console.log("whoo")
+				console.log(allTracks[0])
 				var randomNumberArray = this.randomizedNumbers(100, 12); // get 12 random numbers from 1-100
 				var randomizedTracks = []
 
 				// get the 12 random track ids
 				for (var j = 0; j < randomNumberArray.length; j++) {
-					console.log(allTracks)
 					var thisTrack = trackContent.message.body.track_list[randomNumberArray[j]].track
 					console.log(thisTrack.artist_name + "   " + thisTrack.track_name)
 					randomizedTracks.push({"trackId": thisTrack.track_id, "artistName": thisTrack.artist_name, "trackName": thisTrack.track_name})
