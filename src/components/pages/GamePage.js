@@ -134,6 +134,7 @@ class GamePage extends React.Component {
 					fetch(proxyUrl + trackApiUrl)
 						.then(response => response.json())
 						.then(lyricContent => {
+							console.log(lyricContent)
 							let splitLyrics = lyricContent.message.body.lyrics.lyrics_body.split('\n');
 							let lyricsLength = splitLyrics.length - 4;
 							let randomNumber = Math.floor(Math.random() * lyricsLength);
