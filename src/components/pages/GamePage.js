@@ -169,7 +169,6 @@ class GamePage extends React.Component {
 					let randomNumber = Math.floor(Math.random() * 20);
 					let capital = countryInformation[randomNumberArray[i]].capital;
 					capitals.push(capital);
-					console.log("capital is    " + capital)
 					let country = countryInformation[randomNumberArray[i]].name;
 					if (capital !== "" || !capitals.includes(capital)) countryArray.push({ question: capital, answer: country});
 				}
