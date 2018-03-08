@@ -238,6 +238,7 @@ class GamePage extends React.Component {
 				<div style={{ display: show ? "" : "none" }}>
 					{counter <= (list.length - 1) && !isGameOver ? (
 							<div>
+								{ !isGameOver && show ? <Timer onEnd={this.endGame} /> : null }
 								<h1><Question 
 											questionAnswered={this.nextQuestion} 
 											key={counter} 
@@ -247,7 +248,6 @@ class GamePage extends React.Component {
 										/>
 								</h1>
 								<h1 className="blue-font">score {score.toFixed(2)}</h1>
-								{ !isGameOver && show ? <Timer onEnd={this.endGame} /> : null }
 							</div>
 						) : (
 							null
