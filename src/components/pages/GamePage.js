@@ -151,7 +151,6 @@ class GamePage extends React.Component {
 						.catch(errors => console.log(errors))
 				}
 				this.setState({ list: lyricObjectArray });
-				console.log("state updated")
 			})
 			.catch(errors => console.log(errors))
 	};
@@ -245,7 +244,7 @@ class GamePage extends React.Component {
 											type={category} 
 										/>
 								</h1>
-								<h1 className="blue-font">your score is {score.toFixed(2)}</h1>
+								<h1 className="blue-font">score {score.toFixed(2)}</h1>
 								{ !isGameOver && show ? <Timer onEnd={this.endGame} /> : null }
 							</div>
 						) : (
