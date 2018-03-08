@@ -114,22 +114,18 @@ class GamePage extends React.Component {
 		fetch(proxyUrl + apiUrl)
 			.then(response => response.json())
 			.then(trackContent => {	
-				console.log(trackContent)
 				var allTracks = trackContent.message.body.track_list;
-				console.log("whoo")
-				console.log(allTracks[0])
 				var randomNumberArray = this.randomizedNumbers(100, 12); // get 12 random numbers from 1-100
 				var randomizedTracks = []
 
 				// get the 12 random track ids
 				for (var j = 0; j < randomNumberArray.length; j++) {
 					var thisTrack = trackContent.message.body.track_list[randomNumberArray[j]].track
-					console.log(thisTrack.artist_name + "   " + thisTrack.track_name)
+					// console.log(thisTrack.artist_name + "   " + thisTrack.track_name)
 					randomizedTracks.push({"trackId": thisTrack.track_id, "artistName": thisTrack.artist_name, "trackName": thisTrack.track_name})
 				}
 
 				for (var i = 0; i < randomizedTracks.length; i++) {
-					console.log(randomizedTracks)
 					let trackId = randomizedTracks[i].trackId;
 					let artistName = randomizedTracks[i].artistName;
 					let trackName = randomizedTracks[i].trackName;
@@ -152,13 +148,11 @@ class GamePage extends React.Component {
 							lyricObjectArray.push({ "answer": artistName, "question": lyric, "bonus": trackName });
 							console.log(lyricObjectArray)
 						})
-						.catch(() => console.log('errors with track'))
+						.catch(errors => console.log(errors))
 				}
 				this.setState({ list: lyricObjectArray });
 			})
-			.catch(errors => {
-				console.log(errors)
-			})
+			.catch(errors => console.log(errors))
 	};
 
 	getCapitals = () => {
