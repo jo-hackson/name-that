@@ -134,6 +134,7 @@ class GamePage extends React.Component {
 					fetch(proxyUrl + trackApiUrl)
 						.then(response => response.json())
 						.then(lyricContent => {
+							console.log(lyricContent)
 							let splitLyrics = lyricContent.message.body.lyrics.lyrics_body.split('\n');
 							let lyricsLength = splitLyrics.length - 4;
 							let randomNumber = Math.floor(Math.random() * lyricsLength);
@@ -238,6 +239,7 @@ class GamePage extends React.Component {
 				<div style={{ display: show ? "" : "none" }}>
 					{counter <= (list.length - 1) && !isGameOver ? (
 							<div>
+								{ !isGameOver && show ? <Timer onEnd={this.endGame} /> : null }
 								<h1><Question 
 											questionAnswered={this.nextQuestion} 
 											key={counter} 
@@ -247,7 +249,6 @@ class GamePage extends React.Component {
 										/>
 								</h1>
 								<h1 className="blue-font">score {score.toFixed(2)}</h1>
-								{ !isGameOver && show ? <Timer onEnd={this.endGame} /> : null }
 							</div>
 						) : (
 							null
