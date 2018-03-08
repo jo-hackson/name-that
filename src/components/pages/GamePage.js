@@ -120,7 +120,7 @@ class GamePage extends React.Component {
 
 				// get the 12 random track ids
 				for (var j = 0; j < randomNumberArray.length; j++) {
-					// console.log(trackContent.message.body.track_list)
+					console.log(allTracks)
 					var thisTrack = trackContent.message.body.track_list[randomNumberArray[j]].track
 					console.log(thisTrack.artist_name + "   " + thisTrack.track_name)
 					randomizedTracks.push({"trackId": thisTrack.track_id, "artistName": thisTrack.artist_name, "trackName": thisTrack.track_name})
