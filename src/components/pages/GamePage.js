@@ -157,22 +157,25 @@ class GamePage extends React.Component {
 
 	getCapitals = () => {
 		// response.data.[0..250]
-		var randomNumberArray = this.randomizedNumbers(250, 12);
+		var randomNumberArray = this.randomizedNumbers(250, 20);
 		
 		axios.get('https://restcountries.eu/rest/v2/all')
 			.then(response => {
 				let countryInformation = response.data;
 				let countryArray = [];
+				let capitals = [];
 
-				for (var i = 0; i < 10; i++) {
+				for (var i = 0; i < 20; i++) {
 					let randomNumber = Math.floor(Math.random() * 20);
 					let capital = countryInformation[randomNumberArray[i]].capital;
+					capitals.push(capital);
+					console.log("capital is    " + capital)
 					let country = countryInformation[randomNumberArray[i]].name;
-					countryArray.push({ question: capital, answer: country});
+					if (capital !== "" || !capitals.includes(capital)) countryArray.push({ question: capital, answer: country});
 				}
 				this.setState({ list: countryArray });
 			})
-			.catch(() => console.log("errors in api call"))
+			.catch(errors => console.log(errors))
 	};
 
 
