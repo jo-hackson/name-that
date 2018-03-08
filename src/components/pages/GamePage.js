@@ -112,7 +112,7 @@ class GamePage extends React.Component {
 		const proxyUrl = 'https://safe-earth-71035.herokuapp.com/';
 		const apiUrl = `https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=100&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`;
 		fetch(proxyUrl + apiUrl)
-			.then(response => response.json())
+			.then(response => console.log(response.json()))
 			.then(trackContent => {	
 				var allTracks = trackContent.message.body.track_list;
 				console.log("whoo")
