@@ -110,7 +110,8 @@ class GamePage extends React.Component {
 		const apiUrl = `https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=100&f_has_lyrics=1&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`;
 		fetch(proxyUrl + apiUrl)
 			.then(response => response.json())
-			.then(trackContent => {	
+			.then(trackContent => {
+				console.log(trackContent)	
 				var allTracks = trackContent.message.body.track_list;
 				var randomNumberArray = this.randomizedNumbers(100, 12); // get 12 random numbers from 1-100
 				var randomizedTracks = []
@@ -156,15 +157,16 @@ class GamePage extends React.Component {
 		
 		axios.get('https://restcountries.eu/rest/v2/all')
 			.then(response => {
-				let countryInformation = response.data;
-				let countryArray = [];
-				let capitals = [];
+				var countryInformation = response.data;
+				var countryArray = [];
+				var capitals = [];
 
 				for (var i = 0; i < 20; i++) {
-					let randomNumber = Math.floor(Math.random() * 20);
+					// let randomNumber = Math.floor(Math.random() * 20);
 					let capital = countryInformation[randomNumberArray[i]].capital;
 					capitals.push(capital);
 					let country = countryInformation[randomNumberArray[i]].name;
+					console.log(capitals)
 					if (capital !== "" || !capitals.includes(capital)) countryArray.push({ question: capital, answer: country});
 				}
 				this.setState({ list: countryArray });

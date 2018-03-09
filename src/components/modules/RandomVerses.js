@@ -5,7 +5,6 @@ export function getVerseNames() {
 	let randomNumbers = randomizedNumbers(); // array of random numbers
 	let randomVerseArray = [];
 	for (let i = 0; i < randomNumbers.length; i++) {
-		console.log(allBibleVerses[randomNumbers[i]])
 		randomVerseArray.push(allBibleVerses[randomNumbers[i]]);
 	};
 	return randomVerseArray;
