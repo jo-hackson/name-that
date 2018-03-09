@@ -111,7 +111,7 @@ class GamePage extends React.Component {
 		fetch(proxyUrl + apiUrl)
 			.then(response => response.json())
 			.then(trackContent => {
-				console.log(trackContent)	
+				// console.log(trackContent)	
 				var allTracks = trackContent.message.body.track_list;
 				var randomNumberArray = this.randomizedNumbers(100, 12); // get 12 random numbers from 1-100
 				var randomizedTracks = []
@@ -166,7 +166,7 @@ class GamePage extends React.Component {
 					let capital = countryInformation[randomNumberArray[i]].capital;
 					capitals.push(capital);
 					let country = countryInformation[randomNumberArray[i]].name;
-					console.log(capitals)
+					// console.log(capitals)
 					if (capital !== "" || !capitals.includes(capital)) countryArray.push({ question: capital, answer: country});
 				}
 				this.setState({ list: countryArray });
