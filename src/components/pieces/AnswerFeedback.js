@@ -42,7 +42,7 @@ class AnswerFeedback extends React.Component {
 	};
 
 	// strip whitespace, lowercase everything
-	formatData = userInput => { return userInput.trim().toLowerCase() };
+	formatData = userInput => { return userInput.trim().toLowerCase().replace(/ +/g, "") };
 
 	render() {
 

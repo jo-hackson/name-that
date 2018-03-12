@@ -61,20 +61,16 @@ class GamePage extends React.Component {
 
 		let verseObjectArray = [];
 
-		for (var i = 0; i < verses.length - 1; i++) {
+		for (let i = 0; i < verses.length - 1; i += 1) {
 			axios.get(`https://api.biblia.com/v1/bible/content/ASV.txt.js?passage=${verses[i]}&style=fullyFormatted&key=${process.env.REACT_APP_BIBLIA_API_KEY}`)
 					  .then(response => {
-					  	let bookResponse = response.data.text.split('\n')[0];
-					  	if (response.data.text.split('\n')[1].match(/\r/) != null) {
-					  		var verseResponse = response.data.text.split('\n')[2]
-					  	} else {
-					  		var verseResponse = response.data.text.split('\n')[1];
-					  	}
+					  	let book = verses[i].split(".")[0]; // take book name from verses
+					  	let formattedBook = this.whichBook(book);
 
-					  	let book = this.whichBook(bookResponse);
-					  	let verse = this.whichVerse(verseResponse);
+					  	let verse = response.data.text.split('\n');
+					  	let formattedVerse = this.whichVerse(verse[verse.length-1]);
 					   
-					  	verseObjectArray.push({ "question": verse, "answer": book });
+					  	verseObjectArray.push({ "question": formattedVerse, "answer": formattedBook });
 					  })
 					  .catch(errors => console.log(errors));
 		};
@@ -83,22 +79,13 @@ class GamePage extends React.Component {
 
 
 	whichVerse = verseResponse => {
-		// remove leading numbers in verse
-		return verseResponse.replace(/^\d+\s*/, '');
+		return verseResponse.replace(/^\d+\s*/, ''); // remove leading numbers in verse
 	};
 
 
 	whichBook = bookResponse => {
-		let book = "";
-		// if first character is a number then need to take it out and then do the normal expression
-		if (bookResponse.match(/\D/) != null) {
-			book += bookResponse[0]; // add the number to the book
-			bookResponse = bookResponse.slice(1); // remove number
-		}
-
-		// extract the name
-		book += bookResponse.match(/^\D+/)[0]
-		return book.trim();
+		if (/\d/.test(bookResponse)) return bookResponse[0] + " " + bookResponse.slice(1); // if the book starts with a number, then add a space between
+		return bookResponse;
 	};
 
 
@@ -114,16 +101,15 @@ class GamePage extends React.Component {
 			.then(trackContent => {
 				var allTracks = trackContent.message.body.track_list;
 				var randomNumberArray = randomizedNumbers(100, 12); // get 12 random numbers from 1-100
-				console.log(randomNumberArray)
 				var randomizedTracks = []
 
 				// get the 12 random track ids
-				for (var j = 0; j < randomNumberArray.length; j++) {
+				for (let j = 0; j < randomNumberArray.length; j++) {
 					var thisTrack = trackContent.message.body.track_list[randomNumberArray[j]].track
 					randomizedTracks.push({"trackId": thisTrack.track_id, "artistName": thisTrack.artist_name, "trackName": thisTrack.track_name})
 				}
 
-				for (var i = 0; i < randomizedTracks.length; i++) {
+				for (let i = 0; i < randomizedTracks.length; i++) {
 					let trackId = randomizedTracks[i].trackId;
 					let artistName = randomizedTracks[i].artistName;
 					let trackName = randomizedTracks[i].trackName;
