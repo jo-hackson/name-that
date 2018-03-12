@@ -59,29 +59,37 @@ class GamePage extends React.Component {
 	getVerses = verses => {
 		console.log("getting verses...");
 
-		let verseObjectArray = [];
+		{ let verseObjectArray 
+	
+			verseObjectArray = [];
 
-		for (let i = 0; i < verses.length - 1; i += 1) {
-			axios.get(`https://api.biblia.com/v1/bible/content/ASV.txt.js?passage=${verses[i]}&style=fullyFormatted&key=${process.env.REACT_APP_BIBLIA_API_KEY}`)
-					  .then(response => {
-					  	let book = verses[i].split(".")[0]; // take book name from verses
-					  	let formattedBook = this.whichBook(book);
+			for (let i = 0; i < verses.length - 1; i += 1) {
+				axios.get(`https://api.biblia.com/v1/bible/content/ASV.txt.js?passage=${verses[i]}&style=fullyFormatted&key=${process.env.REACT_APP_BIBLIA_API_KEY}`)
+						  .then(response => {
+						  	{ let bookName, 
+						  				formattedBook, 
+						  				verse, 
+						  				formattedVerse;
 
-					  	let verse = response.data.text.split('\n');
-					  	let formattedVerse = this.whichVerse(verse[verse.length-1]);
-					   
-					  	verseObjectArray.push({ "question": formattedVerse, "answer": formattedBook });
-					  })
-					  .catch(errors => console.log(errors));
-		};
-		this.setState({ list: verseObjectArray });					
+							  	bookName = verses[i].split(".")[0]; // take book name from verses
+							  	formattedBook = this.whichBook(bookName);
+
+							  	verse = response.data.text.split('\n');
+							  	formattedVerse = this.formatVerse(verse[verse.length-1]);
+							   
+							  	verseObjectArray.push({ "question": formattedVerse, "answer": formattedBook });
+						  	};
+						  })
+						  .catch(errors => console.log(errors));
+			};
+			this.setState({ list: verseObjectArray });			
+		};		
 	};
 
 
-	whichVerse = verseResponse => {
-		return verseResponse.replace(/^\d+\s*/, ''); // remove leading numbers in verse
+	formatVerse = verse => {
+		return verse.replace(/^\d+\s*/, ''); // remove leading numbers in verse
 	};
-
 
 	whichBook = bookResponse => {
 		if (/\d/.test(bookResponse)) return bookResponse[0] + " " + bookResponse.slice(1); // if the book starts with a number, then add a space between
@@ -105,14 +113,18 @@ class GamePage extends React.Component {
 
 				// get the 12 random track ids
 				for (let j = 0; j < randomNumberArray.length; j++) {
-					var thisTrack = trackContent.message.body.track_list[randomNumberArray[j]].track
-					randomizedTracks.push({"trackId": thisTrack.track_id, "artistName": thisTrack.artist_name, "trackName": thisTrack.track_name})
+					{ let thisTrack;
+
+						thisTrack = trackContent.message.body.track_list[randomNumberArray[j]].track
+						randomizedTracks.push({"trackId": thisTrack.track_id, "artistName": thisTrack.artist_name, "trackName": thisTrack.track_name})
+					};
+					
 				}
 
 				for (let i = 0; i < randomizedTracks.length; i++) {
-					let trackId = randomizedTracks[i].trackId;
-					let artistName = randomizedTracks[i].artistName;
-					let trackName = randomizedTracks[i].trackName;
+					var trackId = randomizedTracks[i].trackId;
+					var artistName = randomizedTracks[i].artistName;
+					var trackName = randomizedTracks[i].trackName;
 
 					let trackApiUrl = `http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${trackId}&apikey=${process.env.REACT_APP_MUSIX_API_KEY}`
 					fetch(proxyUrl + trackApiUrl)
@@ -139,24 +151,30 @@ class GamePage extends React.Component {
 	};
 
 	getCapitals = () => {
-		// response.data.[0..250]
-		var randomNumberArray = this.randomizedNumbers(250, 20);
+		var randomNumberArray = randomizedNumbers(250, 20);
 		
 		axios.get('https://restcountries.eu/rest/v2/all')
 			.then(response => {
-				var countryInformation = response.data;
-				var countryArray = [];
-				var capitals = [];
+				{ let countryInformation,
+							countryArray,
+							capitals;
 
-				for (var i = 0; i < 20; i++) {
-					// let randomNumber = Math.floor(Math.random() * 20);
-					let capital = countryInformation[randomNumberArray[i]].capital;
-					capitals.push(capital);
-					let country = countryInformation[randomNumberArray[i]].name;
-					// console.log(capitals)
-					if (capital !== "" || !capitals.includes(capital)) countryArray.push({ question: capital, answer: country});
-				}
-				this.setState({ list: countryArray });
+					countryInformation = response.data;
+					countryArray = [];
+					capitals = [];
+
+					for (let i = 0; i < 20; i++) {
+						{ let capital,
+									country
+
+							capital = countryInformation[randomNumberArray[i]].capital;
+							capitals.push(capital);
+							country = countryInformation[randomNumberArray[i]].name;
+							if (capital !== "" || !capitals.includes(capital)) countryArray.push({ question: capital, answer: country});
+						};
+					}
+					this.setState({ list: countryArray });
+				};
 			})
 			.catch(errors => console.log(errors))
 	};
@@ -188,13 +206,13 @@ class GamePage extends React.Component {
 	};
 
 
-	updateScore = (newScore) => {
+	updateScore = newScore => {
 		this.setState({ score: this.state.score + newScore })
 	};
 
 
 	capitalize = string => {
-		string.charAt(0).toUpperCase() + string.slice(1);
+		return string.charAt(0).toUpperCase() + string.slice(1);
 	};	
 
 
