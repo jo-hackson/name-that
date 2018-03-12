@@ -7,6 +7,7 @@ import Timer from '../pieces/Timer';
 import EndGame from '../pieces/EndGame';
 import Instructions from '../pieces/Instructions';
 import { getVerseNames } from '../modules/RandomVerses';
+import { randomizedNumbers } from '../modules/Random';
 
 
 class GamePage extends React.Component {
@@ -34,7 +35,7 @@ class GamePage extends React.Component {
 	componentWillMount() {
 		switch (this.state.category) {
 			case 'verse': 
-				var verses = getVerseNames();
+				let verses = getVerseNames();
 				this.getVerses(verses);
 				break;
 			case 'tune':
@@ -111,9 +112,9 @@ class GamePage extends React.Component {
 		fetch(proxyUrl + apiUrl)
 			.then(response => response.json())
 			.then(trackContent => {
-				// console.log(trackContent)	
 				var allTracks = trackContent.message.body.track_list;
-				var randomNumberArray = this.randomizedNumbers(100, 12); // get 12 random numbers from 1-100
+				var randomNumberArray = randomizedNumbers(100, 12); // get 12 random numbers from 1-100
+				console.log(randomNumberArray)
 				var randomizedTracks = []
 
 				// get the 12 random track ids
@@ -172,17 +173,6 @@ class GamePage extends React.Component {
 				this.setState({ list: countryArray });
 			})
 			.catch(errors => console.log(errors))
-	};
-
-
-	randomizedNumbers = (limit, quantityOfNumbers) => {
-		var array = [];
-		while (array.length < quantityOfNumbers) {
-			var randomNumber = Math.floor(Math.random() * limit) + 1;
-			if (array.indexOf(randomNumber) > -1) continue;
-			array[array.length] = randomNumber;
-		}
-		return array;
 	};
 
 
